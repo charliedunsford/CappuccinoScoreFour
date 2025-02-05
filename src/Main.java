@@ -1,16 +1,14 @@
 public class Main {
     public static void main(String[] args) {
-        GameMode gameMode;
+        GameState gameState = new GameState();
 
         if (args.length == 0) {
-            gameMode = new NormalMode();
+            gameState.setupTestMode();
         } else if (args[0].equals("test")) {
-            gameMode = new TestMode();
+            gameState.setupTestMode();
         } else {
             throw new IllegalArgumentException("Invalid argument");
         }
-
-        GameState gameState = gameMode.setMode();
 
         gameState.startGame();
     }
