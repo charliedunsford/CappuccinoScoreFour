@@ -3,7 +3,7 @@ public class Main {
         GameState gameState = new GameState();
 
         if (args.length == 0) {
-            gameState.setupTestMode();
+            gameState.setupNormalMode();
         } else if (args[0].equals("test")) {
             gameState.setupTestMode();
         } else {
