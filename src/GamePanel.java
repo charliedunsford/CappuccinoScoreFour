@@ -8,7 +8,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.gameBoard = new GameBoard();
-        this.setPreferredSize(new Dimension(500,500));
+        this.setPreferredSize(new Dimension(800,500));
     }
 
     public void startPanelThread() {

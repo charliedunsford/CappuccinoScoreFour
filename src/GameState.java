@@ -16,6 +16,7 @@ public class GameState {
         // Game loop would go here
     }
 
+    // Starts GUI on its own thread
     public void startGui() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,7 +27,6 @@ public class GameState {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
         panel.startPanelThread();
     }
 }
