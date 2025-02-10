@@ -4,10 +4,18 @@ public class Board {
 
     private int x, y;
 
+    public Board() {
+        this.x = -50;
+    }
+
     // For GUI
     public void update() {
         // Updates GUI
-        x += 1;
+        if (x < 800) {
+            x += 4;
+        } else {
+            x = -50;
+        }
         y = 200;
     }
 

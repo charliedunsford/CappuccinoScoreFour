@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class Panel extends JPanel {
 
-    private Board board;
+    private final Board board;
 
     public Panel(Board board) {
         this.board = board;

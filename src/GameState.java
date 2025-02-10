@@ -30,7 +30,6 @@ public class GameState implements Runnable {
         long lastTime = System.nanoTime();
         double delta = 0;
 
-        // ! temporary fps counter, remove later !
         double time = System.currentTimeMillis();
         int frames = 0;
 
@@ -47,10 +46,9 @@ public class GameState implements Runnable {
                 }
                 delta--;
 
-                // ! temporary fps counter, remove later !
                 frames++;
                 if (System.currentTimeMillis() - time >= 1000) {
-                    System.out.println("FPS " + frames);
+                    // frames Count Here
                     frames = 0;
                     time += 1000;
                 }
