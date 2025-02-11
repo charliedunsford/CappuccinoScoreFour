@@ -1,3 +1,6 @@
+import scorefour.gamemodes.*;
+import scorefour.interfaces.GameMode;
+
 public class ScoreFour {
     public static void main(String[] args) {
 

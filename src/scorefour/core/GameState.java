@@ -1,16 +1,24 @@
+package scorefour.core;
+
+import scorefour.interfaces.Drawable;
+import scorefour.ui.Panel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameState implements Runnable {
 
-    private final Board board;
+    private JFrame frame;
     private Panel panel;
+    private final List<Drawable> drawables;
+    private final Board board;
     private volatile boolean running;
 
-    public GameState(Board board, Panel panel) {
-        this.board = board;
-        this.panel = panel;
-    }
-
-    public void setPanel(Panel panel) {
-        this.panel = panel;
+    public GameState() {
+        this.drawables = new ArrayList<>();
+        this.board = new Board();
     }
 
     public void start() {
@@ -33,6 +41,8 @@ public class GameState implements Runnable {
         double time = System.currentTimeMillis();
         int frames = 0;
 
+        drawables.add(board);
+
         while (running) {
             long currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -48,7 +58,8 @@ public class GameState implements Runnable {
 
                 frames++;
                 if (System.currentTimeMillis() - time >= 1000) {
-                    // frames Count Here
+                    // debug fps counter
+                    // System.out.println(frames);
                     frames = 0;
                     time += 1000;
                 }
@@ -58,5 +69,32 @@ public class GameState implements Runnable {
 
     private void updateGameState() {
         board.update();
+    }
+
+    public void startGui() {
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setTitle("Cappuccino Score Four");
+
+        panel = new Panel(this);
+
+        frame.add(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public void stopGui() {
+        panel = null;
+        if (frame != null) {
+            frame.dispose();
+        }
+    }
+
+    public void drawAll(Graphics2D g2d) {
+        for (Drawable drawable : drawables) {
+            drawable.draw(g2d);
+        }
     }
 }
