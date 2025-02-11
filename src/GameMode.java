@@ -1,4 +1,0 @@
-interface GameMode {
-
-    void setup();
-}
