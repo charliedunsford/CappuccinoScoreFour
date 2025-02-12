@@ -34,6 +34,7 @@ public class TestMode implements GameMode {
         commandList.add(new DrawBoardCommand());
         commandList.add(new StartUICommand());
         commandList.add(new StopUICommand());
+        commandList.add(new DebugCommand());
 
         commandList.add(new HelpCommand(commandList));
         return commandList;
