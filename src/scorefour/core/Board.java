@@ -9,14 +9,14 @@ public class Board implements Drawable {
     private int x, y;
 
     public Board() {
-        this.x = -50;
+        this.x = 0;
     }
 
     // Updates every game loop (60FPS)
     public void update() {
         // Updates GUI
         if (x < 800) {
-            x += 4;
+            x += 6;
         } else {
             x = -50;
         }
@@ -26,7 +26,7 @@ public class Board implements Drawable {
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(x, y, 50,50);
+        g2d.fillOval(x, y, 50, 50);
     }
 
     @Override
