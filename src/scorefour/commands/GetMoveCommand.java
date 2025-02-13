@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 public class GetMoveCommand implements Command {
 
@@ -32,10 +32,10 @@ public class GetMoveCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         System.out.println("Getting " + colour + " move.");
         // Implement functionality here (game state could be replaced with board)
-        // gameState.getMoveBead(colour);
+        // ActiveGame.getMoveBead(colour);
     }
 
     @Override

@@ -1,30 +1,34 @@
 package scorefour.gamemodes;
 
 import scorefour.commands.*;
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
-import scorefour.interfaces.GameMode;
+import scorefour.core.Game;
+import scorefour.common.GameState;
+import scorefour.common.Command;
+import scorefour.common.GameMode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static scorefour.common.GameState.PLAYING;
+
 public class TestMode implements GameMode {
 
-    private final GameState gameState;
     private final Scanner scanner;
     private final List<Command> commands;
 
+    private Game game;
+
     public TestMode() {
         this.scanner = new Scanner(System.in);
-        this.gameState = new GameState();
         this.commands = initializeCommands();
+        GameState.state = PLAYING;
     }
 
     private List<Command> initializeCommands() {
         List<Command> commandList = new ArrayList<>();
 
-        // All available commands
+        // Commands go here
         commandList.add(new ClearCommand());
         commandList.add(new QuitCommand());
         commandList.add(new AddCommand());
@@ -32,8 +36,8 @@ public class TestMode implements GameMode {
         commandList.add(new GetMoveCommand());
         commandList.add(new ShowBoardCommand());
         commandList.add(new DrawBoardCommand());
-        commandList.add(new StartUICommand());
-        commandList.add(new StopUICommand());
+        commandList.add(new StartGUICommand());
+        commandList.add(new StopGUICommand());
         commandList.add(new DebugCommand());
 
         commandList.add(new HelpCommand(commandList));
@@ -41,13 +45,12 @@ public class TestMode implements GameMode {
     }
 
     @Override
-    public void setup() {
-        gameState.start();
+    public void setup(Game game) {
+        this.game = game;
         startCommands();
     }
 
-    // Test commands
-    public void startCommands() {
+    private void startCommands() {
         System.out.println("TESTING MODE (type 'help.' for list of commands)");
         boolean running = true;
         while (running) {
@@ -60,7 +63,7 @@ public class TestMode implements GameMode {
             }
             for (Command command : commands) {
                 if (command.parse(input)) {
-                    command.execute(gameState);
+                    command.execute(game);
                     match = true;
                     break;
                 }
@@ -68,8 +71,6 @@ public class TestMode implements GameMode {
             if (!match) {
                 System.out.println("Unknown command. Type 'help.' for command list.");
             }
-            //Temporary thread tracker
-            // System.out.println(Thread.activeCount());
         }
     }
 }

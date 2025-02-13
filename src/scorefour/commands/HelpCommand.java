@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         for (Command command : commands) {
             System.out.println(command.getHelp());
         }
