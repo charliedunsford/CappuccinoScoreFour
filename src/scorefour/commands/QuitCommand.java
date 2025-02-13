@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 public class QuitCommand implements Command {
 
@@ -12,10 +12,9 @@ public class QuitCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
-        System.out.println("Quitting game.");
-        gameState.stopGui();
-        gameState.stop();
+    public void execute(Game game) {
+        System.out.print("Quitting game.");
+        game.stopGameThread();
     }
 
     @Override

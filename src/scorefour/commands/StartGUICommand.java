@@ -1,9 +1,9 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
-public class StartUICommand implements Command {
+public class StartGUICommand implements Command {
 
     @Override
     public boolean parse(String input) {
@@ -12,9 +12,9 @@ public class StartUICommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         System.out.println("Starting gui.");
-        gameState.startGui();
+        game.startGUI();
     }
 
     @Override

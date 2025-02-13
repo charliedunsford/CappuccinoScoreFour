@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 public class ClearCommand implements Command {
 
@@ -12,10 +12,10 @@ public class ClearCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         System.out.println("Clearing board.");
         // Implement functionality here (game state could be replaced with board)
-        // gameState.clearBoard();
+        // ActiveGame.clearBoard();
     }
 
     @Override

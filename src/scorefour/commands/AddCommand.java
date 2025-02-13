@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 public class AddCommand implements Command {
 
@@ -24,8 +24,8 @@ public class AddCommand implements Command {
         }
 
         if (!parts[0].equalsIgnoreCase("add") ||
-            !parts[2].equalsIgnoreCase("bead") ||
-            !parts[3].equalsIgnoreCase("to")) {
+                !parts[2].equalsIgnoreCase("bead") ||
+                !parts[3].equalsIgnoreCase("to")) {
             return false;
         }
 
@@ -35,10 +35,10 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         System.out.println("Adding " + colour + " bead to " + position);
         // Implement functionality here (game state could be replaced with board)
-        // gameState.addBead(color, position);
+        // ActiveGame.addBead(color, position);
     }
 
     @Override

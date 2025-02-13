@@ -1,19 +1,12 @@
 package scorefour.gamemodes;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.GameMode;
+import scorefour.core.Game;
+import scorefour.common.GameMode;
 
 public class NormalMode implements GameMode {
 
-    private final GameState gameState;
-
-    public NormalMode() {
-        this.gameState = new GameState();
-    }
-
     @Override
-    public void setup() {
-        gameState.startGui();
-        gameState.start();
+    public void setup(Game game) {
+        game.startGUI();
     }
 }

@@ -1,19 +1,20 @@
+import scorefour.core.Game;
 import scorefour.gamemodes.*;
-import scorefour.interfaces.GameMode;
+import scorefour.common.GameMode;
 
 public class ScoreFour {
     public static void main(String[] args) {
-
         GameMode mode;
 
         if (args.length == 0) {
             mode = new NormalMode();
-        } else if (args[0].equals("test")) {
+        } else if (args[0].equalsIgnoreCase("test")) {
             mode = new TestMode();
         } else {
-            throw new IllegalArgumentException("Invalid argument");
+            System.err.println("java ScoreFour [test]");
+            return;
         }
 
-        mode.setup();
+        mode.setup(new Game());
     }
 }

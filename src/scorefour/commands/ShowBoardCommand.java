@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 public class ShowBoardCommand implements Command {
 
@@ -12,10 +12,10 @@ public class ShowBoardCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         System.out.println("Showing board.");
-        // Implement functionality here (game state could be replaced with board)
-        // gameState.showBoard(); or board.showBoard();
+        // Implement functionality here
+        // ActiveGame.showBoard(); or board.showBoard();
     }
 
     @Override
