@@ -1,26 +1,31 @@
 package scorefour.ui;
 
+import scorefour.common.Drawable;
 import scorefour.common.GameState;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
-public class MenuButton {
+public class MenuButton implements Drawable {
 
-    private int x, y, row, index;
     private GameState state;
     private BufferedImage[] images;
     private Rectangle bounds;
-    private boolean mouseOver, mousePressed;
+    private AudioPlayer audioPlayer;
 
-    public MenuButton(int x, int y, int row, GameState state) {
+    private int x, y, row, index;
+    private boolean mouseOver, mousePressed;
+    private boolean hoverSoundPlayed = false;
+
+    public MenuButton(int x, int y, int row, GameState state, AudioPlayer audioPlayer) {
         this.x = x;
         this.y = y;
         this.row = row;
         this.state = state;
+        this.audioPlayer = audioPlayer;
         loadImages();
         initializeBounds();
     }
@@ -29,8 +34,8 @@ public class MenuButton {
         images = new BufferedImage[2];
         try {
             String button = (row == 0) ? "playButton" : "quitButton";
-            images[0] = ImageIO.read(new File("res/" + button + ".png"));
-            images[1] = ImageIO.read(new File("res/" + button + "_hover.png"));
+            images[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/" + button + ".png")));
+            images[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/" + button + "_hover.png")));
         } catch (IOException e) {
             throw new RuntimeException("Failed to load the menu button images.");
         }
@@ -40,19 +45,24 @@ public class MenuButton {
         bounds = new Rectangle(x, y,191, 112);
     }
 
+    @Override
     public void update() {
         index = 0;
         if (mouseOver) {
             index = 1;
+            if (!hoverSoundPlayed) {
+                audioPlayer.playEffect(AudioPlayer.MENU_HOVER);
+                hoverSoundPlayed = true;
+            }
+        }
+        if (!mouseOver) {
+            resetButton();
         }
     }
 
+    @Override
     public void draw(Graphics g) {
         g.drawImage(images[index], x, y, 191, 112, null);
-    }
-
-    public boolean isMouseOver() {
-        return mouseOver;
     }
 
     public void setMouseOver(boolean mouseOver) {
@@ -69,6 +79,7 @@ public class MenuButton {
 
     public void resetButton() {
         mouseOver = false;
+        hoverSoundPlayed = false;
         mousePressed = false;
     }
 

@@ -2,9 +2,9 @@ package scorefour.commands;
 
 import scorefour.core.Game;
 import scorefour.common.Command;
+import scorefour.ui.AudioPlayer;
 
 public class StartGUICommand implements Command {
-
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("start gui.");
@@ -15,6 +15,7 @@ public class StartGUICommand implements Command {
     public void execute(Game game) {
         System.out.println("Starting gui.");
         game.startGUI();
+        game.getAudioPlayer().playSong(AudioPlayer.GAME);
     }
 
     @Override

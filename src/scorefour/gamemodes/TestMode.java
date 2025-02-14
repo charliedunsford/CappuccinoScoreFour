@@ -22,7 +22,6 @@ public class TestMode implements GameMode {
     public TestMode() {
         this.scanner = new Scanner(System.in);
         this.commands = initializeCommands();
-        GameState.state = PLAYING;
     }
 
     private List<Command> initializeCommands() {
@@ -47,6 +46,7 @@ public class TestMode implements GameMode {
     @Override
     public void setup(Game game) {
         this.game = game;
+        GameState.state = PLAYING;
         startCommands();
     }
 

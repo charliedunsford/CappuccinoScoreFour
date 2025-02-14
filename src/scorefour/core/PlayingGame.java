@@ -1,46 +1,49 @@
 package scorefour.core;
 
 import scorefour.common.BeadColour;
+import scorefour.common.Drawable;
 import scorefour.common.Interactable;
-import scorefour.objects.Bead;
+import scorefour.objects.Board;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
-public class GameInstance extends State implements Interactable {
+public class PlayingGame extends State implements Interactable, Drawable {
 
+    private BufferedImage background;
     private BufferedImage overlay;
-    private Bead blackBead;
+    private Board board;
 
-    public GameInstance(Game game) {
+    public PlayingGame(Game game) {
         super(game);
         initializeClasses();
 
         try {
-            overlay = ImageIO.read(new File("res/overlay.png"));
+            overlay = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/overlay.png")));
+            background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/playingBackground.png")));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load overlay image: res/overlay.png");
+            throw new RuntimeException("Failed to load in game images.");
         }
     }
 
     public void initializeClasses() {
-        this.blackBead = new Bead(BeadColour.BLACK);
+        this.board = new Board();
     }
 
     @Override
     public void update() {
-        blackBead.update();
-        // Track score etc
+        board.update();
     }
 
     @Override
     public void draw(Graphics g) {
+        g.drawImage(background, 0, 0, null);
         g.drawImage(overlay, 0, 0, null);
-        blackBead.draw(g);
+        board.draw(g);
     }
 
     @Override

@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class DrawBoardCommand implements Command {
-
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("draw board.");
@@ -15,7 +14,7 @@ public class DrawBoardCommand implements Command {
     public void execute(Game game) {
         System.out.println("Drawing board.");
         // Implement functionality here
-        // ActiveGame.drawBoard(); or board.drawBoard();
+        // game.getPlayingGame().getBoard().drawBoard();
     }
 
     @Override

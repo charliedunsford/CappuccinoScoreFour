@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class AddCommand implements Command {
-
     private String colour;
     private String position;
 
@@ -37,8 +36,8 @@ public class AddCommand implements Command {
     @Override
     public void execute(Game game) {
         System.out.println("Adding " + colour + " bead to " + position);
-        // Implement functionality here (game state could be replaced with board)
-        // ActiveGame.addBead(color, position);
+        // Implement functionality here
+        // game.getPlayingGame().getBoard().addBead(color, position);
     }
 
     @Override

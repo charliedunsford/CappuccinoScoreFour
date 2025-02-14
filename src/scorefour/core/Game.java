@@ -1,6 +1,7 @@
 package scorefour.core;
 
 import scorefour.common.GameState;
+import scorefour.ui.AudioPlayer;
 import scorefour.ui.Panel;
 import scorefour.ui.Window;
 
@@ -10,25 +11,25 @@ public class Game implements Runnable {
 
     private Panel panel;
     private Window window;
-    private Thread gameThread;
     private int debugFPS;
-    private final int FPS = 60;
     private boolean running;
 
     private Menu menu;
-    private GameInstance gameInstance;
+    private PlayingGame playingGame;
+    private AudioPlayer audioPlayer;
 
     public final static int PANEL_WIDTH = 800;
     public final static int PANEL_HEIGHT = 600;
 
     public Game() {
         initializeClasses();
-        startGameLoop();
+        startGame();
     }
 
     public void initializeClasses() {
+        audioPlayer = new AudioPlayer();
         menu = new Menu(this);
-        gameInstance = new GameInstance(this);
+        playingGame = new PlayingGame(this);
     }
 
     public void startGUI() {
@@ -44,20 +45,20 @@ public class Game implements Runnable {
         window.dispose();
     }
 
-    public void startGameLoop() {
+    public void startGame() {
         running = true;
-        gameThread = new Thread(this);
+        Thread gameThread = new Thread(this);
         gameThread.start();
     }
 
-    public void stopGameThread() {
+    public void stopGame() {
         running = false;
     }
 
     public void update() {
         switch (GameState.state) {
             case MENU -> menu.update();
-            case PLAYING -> gameInstance.update();
+            case PLAYING -> playingGame.update();
             case QUIT -> System.exit(0);
         }
     }
@@ -65,12 +66,13 @@ public class Game implements Runnable {
     public void render(Graphics g) {
         switch (GameState.state) {
             case MENU -> menu.draw(g);
-            case PLAYING -> gameInstance.draw(g);
+            case PLAYING -> playingGame.draw(g);
         }
     }
 
     @Override
     public void run() {
+        int FPS = 60;
         final double drawInterval = 1000000000.0 / FPS;
         long previousTime = System.nanoTime();
 
@@ -96,6 +98,7 @@ public class Game implements Runnable {
 
                 if (System.currentTimeMillis() - time >= 1000) {
                     debugFPS = frames;
+                    // System.out.println(debugFPS); for testing
                     frames = 0;
                     time += 1000;
                 }
@@ -107,8 +110,12 @@ public class Game implements Runnable {
         return menu;
     }
 
-    public GameInstance getActiveGame() {
-        return gameInstance;
+    public PlayingGame getPlayingGame() {
+        return playingGame;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
     }
 
     public int getDebugFPS() {
