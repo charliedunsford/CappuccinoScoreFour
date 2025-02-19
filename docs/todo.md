@@ -1,2 +1,2 @@
 # To Do
-* Use asteriks (*) to seperate todos.
+* Change where drawables are added in game loop.
