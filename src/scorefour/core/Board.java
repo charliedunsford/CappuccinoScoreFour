@@ -1,6 +1,10 @@
+package scorefour.core;
+
+import scorefour.interfaces.Drawable;
+
 import java.awt.*;
 
-public class Board {
+public class Board implements Drawable {
 
     private int x, y;
 
@@ -8,7 +12,7 @@ public class Board {
         this.x = -50;
     }
 
-    // For GUI
+    // Updates every game loop (60FPS)
     public void update() {
         // Updates GUI
         if (x < 800) {
@@ -19,9 +23,15 @@ public class Board {
         y = 200;
     }
 
-    // For GUI
+    @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(x, y, 50,50);
+    }
+
+    @Override
+    public String toString() {
+        // Implement an ascii representation of the board to be used in Testing Mode.
+        return "";
     }
 }

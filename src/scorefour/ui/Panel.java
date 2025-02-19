@@ -1,12 +1,16 @@
+package scorefour.ui;
+
+import scorefour.core.GameState;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class Panel extends JPanel {
 
-    private final Board board;
+    private final GameState gameState;
 
-    public Panel(Board board) {
-        this.board = board;
+    public Panel(GameState gameState) {
+        this.gameState = gameState;
         setPreferredSize(new Dimension(800,500));
     }
 
@@ -14,6 +18,6 @@ public class Panel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        board.draw(g2d);
+        gameState.drawAll(g2d);
     }
 }
