@@ -1,15 +1,16 @@
-public class Main {
+public class ScoreFour {
     public static void main(String[] args) {
-        GameState gameState = new GameState();
+
+        GameMode mode;
 
         if (args.length == 0) {
-            gameState.setupNormalMode();
+            mode = new NormalMode();
         } else if (args[0].equals("test")) {
-            gameState.setupTestMode();
+            mode = new TestMode();
         } else {
             throw new IllegalArgumentException("Invalid argument");
         }
 
-        gameState.startGame();
+        mode.setup();
     }
 }

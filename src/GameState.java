@@ -1,32 +1,64 @@
-import javax.swing.*;
+public class GameState implements Runnable {
 
-public class GameState {
+    private final Board board;
+    private Panel panel;
+    private volatile boolean running;
 
-    // Sets up the game for a normal runtime
-    public void setupNormalMode() {
-        startGui();
+    public GameState(Board board, Panel panel) {
+        this.board = board;
+        this.panel = panel;
     }
 
-    // Sets up game for a debugging runtime
-    public void setupTestMode() {
-        // Do not run GUI
+    public void setPanel(Panel panel) {
+        this.panel = panel;
     }
 
-    public void startGame() {
-        // Game loop would go here
+    public void start() {
+        running = true;
+        new Thread(this).start();
     }
 
-    // Starts GUI on its own thread
-    public void startGui() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setTitle("Cappuccino Score Four");
-        GamePanel panel = new GamePanel();
-        frame.add(panel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        panel.startPanelThread();
+    public void stop() {
+        running = false;
+    }
+
+    // This is the game loop
+    @Override
+    public void run() {
+        final int FPS = 60;
+        final double drawInterval = 1000000000.0 / FPS;
+        long lastTime = System.nanoTime();
+        double delta = 0;
+
+        // ! temporary fps counter, remove later !
+        double time = System.currentTimeMillis();
+        int frames = 0;
+
+        while (running) {
+            long currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                updateGameState();
+
+                if (panel != null) {
+                    panel.repaint();
+                }
+                delta--;
+
+                // ! temporary fps counter, remove later !
+                frames++;
+                if (System.currentTimeMillis() - time >= 1000) {
+                    System.out.println("FPS " + frames);
+                    frames = 0;
+                    time += 1000;
+                }
+            }
+        }
+    }
+
+    private void updateGameState() {
+        board.update();
     }
 }
