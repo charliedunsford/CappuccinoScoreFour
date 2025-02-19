@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class RemoveCommand implements Command {
-
     private String position;
 
     @Override
@@ -36,7 +35,7 @@ public class RemoveCommand implements Command {
     public void execute(Game game) {
         System.out.println("Removing bead from " + position);
         // Implement functionality here
-        // ActiveGame.removeBead(position);
+        // game.getPlayingGame().getBoard().removeBead(position);
     }
 
     @Override

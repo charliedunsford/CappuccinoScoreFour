@@ -1,2 +1,2 @@
 # To Do
-* Change where drawables are added in game loop.
+* add to do's here

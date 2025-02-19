@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class StopGUICommand implements Command {
-
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("stop gui.");
@@ -14,6 +13,7 @@ public class StopGUICommand implements Command {
     @Override
     public void execute(Game game) {
         System.out.println("Stopping gui.");
+        game.getAudioPlayer().stopSong();
         game.stopGUI();
     }
 

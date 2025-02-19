@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class GetMoveCommand implements Command {
-
     private String colour;
 
     @Override
@@ -34,8 +33,8 @@ public class GetMoveCommand implements Command {
     @Override
     public void execute(Game game) {
         System.out.println("Getting " + colour + " move.");
-        // Implement functionality here (game state could be replaced with board)
-        // ActiveGame.getMoveBead(colour);
+        // Implement functionality here
+        // game.getPlayingGame().getBoard().getMoveBead(colour);
     }
 
     @Override

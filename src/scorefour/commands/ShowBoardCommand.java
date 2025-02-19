@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class ShowBoardCommand implements Command {
-
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("show board.");
@@ -15,7 +14,7 @@ public class ShowBoardCommand implements Command {
     public void execute(Game game) {
         System.out.println("Showing board.");
         // Implement functionality here
-        // ActiveGame.showBoard(); or board.showBoard();
+        // game.getPlayingGame().getBoard().showBoard() or toString();
     }
 
     @Override

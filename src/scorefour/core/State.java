@@ -1,9 +1,9 @@
 package scorefour.core;
 
 import scorefour.common.GameState;
+import scorefour.ui.AudioPlayer;
 import scorefour.ui.MenuButton;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public abstract class State {
@@ -23,9 +23,11 @@ public abstract class State {
     }
 
     public void setGameState(GameState state) {
+        switch (state) {
+            case MENU -> game.getAudioPlayer().playSong(AudioPlayer.MENU);
+            case PLAYING -> game.getAudioPlayer().playSong(AudioPlayer.GAME);
+        }
         GameState.state = state;
     }
 
-    public abstract void update();
-    public abstract void draw(Graphics g);
 }

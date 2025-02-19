@@ -4,7 +4,6 @@ import scorefour.core.Game;
 import scorefour.common.Command;
 
 public class DebugCommand implements Command {
-
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("debug.");
