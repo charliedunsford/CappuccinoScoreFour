@@ -1,6 +1,4 @@
-public abstract class GameMode {
+interface GameMode {
 
-    protected String gameMode;
-
-    abstract void setup();
+    void setup();
 }
