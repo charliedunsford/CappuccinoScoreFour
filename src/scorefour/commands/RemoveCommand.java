@@ -1,7 +1,7 @@
 package scorefour.commands;
 
-import scorefour.core.GameState;
-import scorefour.interfaces.Command;
+import scorefour.core.Game;
+import scorefour.common.Command;
 
 public class RemoveCommand implements Command {
 
@@ -33,10 +33,10 @@ public class RemoveCommand implements Command {
     }
 
     @Override
-    public void execute(GameState gameState) {
+    public void execute(Game game) {
         System.out.println("Removing bead from " + position);
-        // Implement functionality here (game state could be replaced with board)
-        // gameState.removeBead(position);
+        // Implement functionality here
+        // ActiveGame.removeBead(position);
     }
 
     @Override
