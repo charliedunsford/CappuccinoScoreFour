@@ -1,6 +1,5 @@
-package scorefour.objects;
+package scorefour.view;
 
-import scorefour.common.BeadColour;
 import scorefour.common.Drawable;
 import scorefour.common.Interactable;
 
@@ -13,11 +12,8 @@ import java.util.Objects;
 
 public class Board implements Drawable, Interactable {
     private BufferedImage board;
-    private Bead blackBead;
-
     public Board() {
         this.board = initializeBoard();
-        this.blackBead = new Bead(BeadColour.BLACK);
     }
 
     public BufferedImage initializeBoard() {
@@ -31,13 +27,11 @@ public class Board implements Drawable, Interactable {
 
     @Override
     public void update() {
-        blackBead.update();
     }
 
     @Override
     public void draw(Graphics g) {
         g.drawImage(board, 0, 0, null);
-        blackBead.draw(g);
     }
 
     @Override

@@ -1,2 +1,7 @@
 # To Do
-* add to do's here
+* Separate classes into the model, view, controller packages.
+* Implement Game button class into View.
+* Implement Player interface into Common.
+* Implement test mode player selection (eg test [blank=pvc]/--pvp/--pvc/==/--cvp/--cvc)
+* Expand commands to only accept correct colour and position inputs.
+* Combine Responsive and MouseInputs classes? or would that be overcrowded?

@@ -1,10 +1,10 @@
-package scorefour.ui;
+package scorefour.controller;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class AudioPlayer {
+public class Audio {
 
     public static final int MENU = 0;
     public static final int GAME = 1;
@@ -14,13 +14,13 @@ public class AudioPlayer {
     private Clip[] songs, effects;
     private int currentSong, currentEffect;
 
-    public AudioPlayer() {
+    public Audio() {
         loadSongs();
         loadEffects();
     }
 
     public void loadSongs() {
-        String[] names = {"menu", "playing"};
+        String[] names = {"menu", "playing_nolead"}; // remove no lead for more lead :D
         songs = new Clip[names.length];
         for (int i = 0; i < songs.length; i++) {
             songs[i] = getClip(names[i]);

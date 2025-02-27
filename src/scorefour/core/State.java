@@ -1,10 +1,7 @@
 package scorefour.core;
 
 import scorefour.common.GameState;
-import scorefour.ui.AudioPlayer;
-import scorefour.ui.MenuButton;
-
-import java.awt.event.MouseEvent;
+import scorefour.controller.Audio;
 
 public abstract class State {
 
@@ -14,18 +11,14 @@ public abstract class State {
         this.game = game;
     }
 
-    public boolean isIn(MouseEvent e, MenuButton button) {
-        return button.getBounds().contains(e.getX(), e.getY());
-    }
-
     public Game getGame() {
         return game;
     }
 
     public void setGameState(GameState state) {
         switch (state) {
-            case MENU -> game.getAudioPlayer().playSong(AudioPlayer.MENU);
-            case PLAYING -> game.getAudioPlayer().playSong(AudioPlayer.GAME);
+            case MENU -> game.getAudio().playSong(Audio.MENU);
+            case PLAYING -> game.getAudio().playSong(Audio.GAME);
         }
         GameState.state = state;
     }
