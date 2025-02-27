@@ -1,8 +1,12 @@
 package scorefour.core;
 
 import scorefour.common.GameState;
-import scorefour.controller.Audio;
+import scorefour.controller.AudioController;
+import scorefour.controller.MenuController;
+import scorefour.controller.PlayingController;
+import scorefour.view.MenuView;
 import scorefour.view.Panel;
+import scorefour.view.PlayingView;
 import scorefour.view.Window;
 
 import java.awt.*;
@@ -14,9 +18,9 @@ public class Game implements Runnable {
     private int debugFPS;
     private volatile boolean running;
 
-    private Menu menu;
-    private Playing playing;
-    private Audio audio;
+    private MenuController menuController;
+    private PlayingController playingController;
+    private AudioController audioController;
 
     public final static int PANEL_WIDTH = 800;
     public final static int PANEL_HEIGHT = 600;
@@ -27,9 +31,9 @@ public class Game implements Runnable {
     }
 
     public void initializeClasses() {
-        audio = new Audio();
-        menu = new Menu(this);
-        playing = new Playing(this);
+        audioController = new AudioController();
+        menuController = new MenuController(new MenuView(), audioController);
+        playingController = new PlayingController(new PlayingView());
     }
 
     public void startGUI() {
@@ -60,16 +64,16 @@ public class Game implements Runnable {
 
     public void update() {
         switch (GameState.state) {
-            case MENU -> menu.update();
-            case PLAYING -> playing.update();
+            case MENU -> menuController.update();
+            case PLAYING -> playingController.update();
             case QUIT -> System.exit(0);
         }
     }
 
     public void render(Graphics g) {
         switch (GameState.state) {
-            case MENU -> menu.draw(g);
-            case PLAYING -> playing.draw(g);
+            case MENU -> menuController.draw(g);
+            case PLAYING -> playingController.draw(g);
         }
     }
 
@@ -109,16 +113,16 @@ public class Game implements Runnable {
         }
     }
 
-    public Menu getMenu() {
-        return menu;
+    public MenuController getMenu() {
+        return menuController;
     }
 
-    public Playing getPlaying() {
-        return playing;
+    public PlayingController getPlaying() {
+        return playingController;
     }
 
-    public Audio getAudio() {
-        return audio;
+    public AudioController getAudio() {
+        return audioController;
     }
 
     public int getDebugFPS() {

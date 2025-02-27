@@ -2,9 +2,7 @@ package scorefour.common;
 
 import java.awt.*;
 
-public interface Drawable {
-
-    void update();
+public interface Viewable {
 
     void draw(Graphics g);
 

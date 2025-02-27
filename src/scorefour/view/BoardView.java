@@ -1,18 +1,18 @@
 package scorefour.view;
 
-import scorefour.common.Drawable;
-import scorefour.common.Interactable;
+import scorefour.common.Viewable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Board implements Drawable, Interactable {
+public class BoardView implements Viewable {
+
     private BufferedImage board;
-    public Board() {
+
+    public BoardView() {
         this.board = initializeBoard();
     }
 
@@ -26,31 +26,7 @@ public class Board implements Drawable, Interactable {
     }
 
     @Override
-    public void update() {
-    }
-
-    @Override
     public void draw(Graphics g) {
         g.drawImage(board, 0, 0, null);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
     }
 }

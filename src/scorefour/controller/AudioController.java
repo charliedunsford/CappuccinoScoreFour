@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Audio {
+public class AudioController {
 
     public static final int MENU = 0;
     public static final int GAME = 1;
@@ -14,7 +14,7 @@ public class Audio {
     private Clip[] songs, effects;
     private int currentSong, currentEffect;
 
-    public Audio() {
+    public AudioController() {
         loadSongs();
         loadEffects();
     }

@@ -28,7 +28,7 @@ public class Window {
         frame.setVisible(true);
     }
 
-    public void initializeIcons() {
+    private void initializeIcons() {
         try {
             icons[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/icons/128x128.png")));
             icons[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/icons/64x64.png")));

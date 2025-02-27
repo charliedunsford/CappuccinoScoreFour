@@ -1,7 +1,7 @@
 package scorefour.common;
 
 public enum GameState {
-    PLAYING, MENU, QUIT;
+    MENU, PLAYING, PAUSED, QUIT;
 
     public static GameState state = MENU;
 }
