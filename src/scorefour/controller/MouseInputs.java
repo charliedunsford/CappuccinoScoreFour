@@ -1,6 +1,7 @@
-package scorefour.ui;
+package scorefour.controller;
 
 import scorefour.common.GameState;
+import scorefour.view.Panel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,7 +9,7 @@ import java.awt.event.MouseMotionListener;
 
 public class MouseInputs implements MouseListener, MouseMotionListener {
 
-    private Panel panel;
+    private final Panel panel;
 
     public MouseInputs(Panel panel) {
         this.panel = panel;
@@ -25,6 +26,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         switch (GameState.state) {
             case MENU -> panel.getGame().getMenu().mousePressed(e);
+            case PLAYING -> panel.getGame().getPlaying().mousePressed(e);
         }
     }
 
@@ -32,7 +34,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
         switch (GameState.state) {
             case MENU -> panel.getGame().getMenu().mouseReleased(e);
-            case PLAYING -> panel.getGame().getPlayingGame().mouseReleased(e);
+            case PLAYING -> panel.getGame().getPlaying().mouseReleased(e);
         }
     }
 
@@ -54,7 +56,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         switch (GameState.state) {
             case MENU -> panel.getGame().getMenu().mouseMoved(e);
-            case PLAYING -> panel.getGame().getPlayingGame().mouseMoved(e);
+            case PLAYING -> panel.getGame().getPlaying().mouseMoved(e);
         }
     }
 }

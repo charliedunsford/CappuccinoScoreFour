@@ -13,7 +13,7 @@ public class StopGUICommand implements Command {
     @Override
     public void execute(Game game) {
         System.out.println("Stopping gui.");
-        game.getAudioPlayer().stopSong();
+        game.getAudio().stopSong();
         game.stopGUI();
     }
 

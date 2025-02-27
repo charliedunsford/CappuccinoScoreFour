@@ -2,7 +2,7 @@ package scorefour.commands;
 
 import scorefour.core.Game;
 import scorefour.common.Command;
-import scorefour.ui.AudioPlayer;
+import scorefour.controller.Audio;
 
 public class StartGUICommand implements Command {
     @Override
@@ -15,7 +15,7 @@ public class StartGUICommand implements Command {
     public void execute(Game game) {
         System.out.println("Starting gui.");
         game.startGUI();
-        game.getAudioPlayer().playSong(AudioPlayer.GAME);
+        game.getAudio().playSong(Audio.GAME);
     }
 
     @Override

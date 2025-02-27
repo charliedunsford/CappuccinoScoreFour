@@ -1,9 +1,9 @@
 package scorefour.core;
 
 import scorefour.common.GameState;
-import scorefour.ui.AudioPlayer;
-import scorefour.ui.Panel;
-import scorefour.ui.Window;
+import scorefour.controller.Audio;
+import scorefour.view.Panel;
+import scorefour.view.Window;
 
 import java.awt.*;
 
@@ -12,11 +12,11 @@ public class Game implements Runnable {
     private Panel panel;
     private Window window;
     private int debugFPS;
-    private boolean running;
+    private volatile boolean running;
 
     private Menu menu;
-    private PlayingGame playingGame;
-    private AudioPlayer audioPlayer;
+    private Playing playing;
+    private Audio audio;
 
     public final static int PANEL_WIDTH = 800;
     public final static int PANEL_HEIGHT = 600;
@@ -27,9 +27,9 @@ public class Game implements Runnable {
     }
 
     public void initializeClasses() {
-        audioPlayer = new AudioPlayer();
+        audio = new Audio();
         menu = new Menu(this);
-        playingGame = new PlayingGame(this);
+        playing = new Playing(this);
     }
 
     public void startGUI() {
@@ -52,13 +52,16 @@ public class Game implements Runnable {
     }
 
     public void stopGame() {
+        if (panel != null) {
+            stopGUI();
+        }
         running = false;
     }
 
     public void update() {
         switch (GameState.state) {
             case MENU -> menu.update();
-            case PLAYING -> playingGame.update();
+            case PLAYING -> playing.update();
             case QUIT -> System.exit(0);
         }
     }
@@ -66,7 +69,7 @@ public class Game implements Runnable {
     public void render(Graphics g) {
         switch (GameState.state) {
             case MENU -> menu.draw(g);
-            case PLAYING -> playingGame.draw(g);
+            case PLAYING -> playing.draw(g);
         }
     }
 
@@ -110,12 +113,12 @@ public class Game implements Runnable {
         return menu;
     }
 
-    public PlayingGame getPlayingGame() {
-        return playingGame;
+    public Playing getPlaying() {
+        return playing;
     }
 
-    public AudioPlayer getAudioPlayer() {
-        return audioPlayer;
+    public Audio getAudio() {
+        return audio;
     }
 
     public int getDebugFPS() {

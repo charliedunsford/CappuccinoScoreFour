@@ -1,9 +1,9 @@
 package scorefour.core;
 
-import scorefour.common.BeadColour;
 import scorefour.common.Drawable;
 import scorefour.common.Interactable;
-import scorefour.objects.Board;
+import scorefour.view.Board;
+import scorefour.view.Overlay;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,18 +12,20 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class PlayingGame extends State implements Interactable, Drawable {
+public class Playing extends State implements Drawable, Interactable {
 
     private BufferedImage background;
-    private BufferedImage overlay;
+    private Overlay overlay;
     private Board board;
 
-    public PlayingGame(Game game) {
+    public Playing(Game game) {
         super(game);
+        initializeBackground();
         initializeClasses();
+    }
 
+    public void initializeBackground() {
         try {
-            overlay = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/overlay.png")));
             background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/playingBackground.png")));
         } catch (IOException e) {
             throw new RuntimeException("Failed to load in game images.");
@@ -31,19 +33,21 @@ public class PlayingGame extends State implements Interactable, Drawable {
     }
 
     public void initializeClasses() {
+        this.overlay = new Overlay();
         this.board = new Board();
     }
 
     @Override
     public void update() {
+        overlay.update();
         board.update();
     }
 
     @Override
     public void draw(Graphics g) {
         g.drawImage(background, 0, 0, null);
-        g.drawImage(overlay, 0, 0, null);
         board.draw(g);
+        overlay.draw(g);
     }
 
     @Override
@@ -53,16 +57,17 @@ public class PlayingGame extends State implements Interactable, Drawable {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        overlay.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        overlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        overlay.setMouseOver(overlay.isIn(e));
+        overlay.mouseMoved(e);
     }
 }

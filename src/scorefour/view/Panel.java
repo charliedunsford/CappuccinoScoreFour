@@ -1,5 +1,6 @@
-package scorefour.ui;
+package scorefour.view;
 
+import scorefour.controller.MouseInputs;
 import scorefour.core.Game;
 
 import javax.swing.*;
@@ -9,15 +10,15 @@ import static scorefour.core.Game.PANEL_WIDTH;
 import static scorefour.core.Game.PANEL_HEIGHT;
 
 public class Panel extends JPanel {
-    private MouseInputs mouseInputs;
-    private Game game;
+    private final MouseInputs mouseInputs;
+    private final Game game;
 
     public Panel(Game game) {
         mouseInputs = new MouseInputs(this);
         this.game = game;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
-        // Add listeners here
+        // Add additional listeners here
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }

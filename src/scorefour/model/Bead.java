@@ -1,4 +1,4 @@
-package scorefour.objects;
+package scorefour.model;
 
 import scorefour.common.BeadColour;
 import scorefour.common.Drawable;
