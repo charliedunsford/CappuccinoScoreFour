@@ -3,9 +3,20 @@ package scorefour.commands;
 import scorefour.core.Game;
 import scorefour.common.Command;
 
+/**
+ * The {@code GetMoveCommand} allows the user to have the program propose a move.
+ */
 public class GetMoveCommand implements Command {
+
     private String colour;
 
+    /**
+     * Parsing splits a string into sections and checks if the input the user entered is
+     * a valid {@link Command}.
+     *
+     * @param input a string command
+     * @return {@code true} if the string is a valid command, {@code false} otherwise
+     */
     @Override
     public boolean parse(String input) {
 
@@ -30,13 +41,25 @@ public class GetMoveCommand implements Command {
         return true;
     }
 
+    /**
+     * Executes the {@link Command} by sending the commands information to the
+     * game instance.
+     *
+     * @param game the {@link Game} instance to interact with
+     */
     @Override
     public void execute(Game game) {
         System.out.println("Getting " + colour + " move.");
         // Implement functionality here
-        // game.getPlayingGame().getBoard().getMoveBead(colour);
+        // game.getPlayingGame().getBoard().getMoveBead(colour); or computerPlayer.getMove()
     }
 
+    /**
+     * A string which describes the use of the {@link Command}. This method will be
+     * stored in a list to be called by a {@link scorefour.commands.HelpCommand}.
+     *
+     * @return a string description of a {@link Command}
+     */
     @Override
     public String getHelp() {
         return "get [colour] move.                          have the computer propose a move";

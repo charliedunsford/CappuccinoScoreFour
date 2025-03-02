@@ -1,50 +1,28 @@
 package scorefour.model;
 
 import scorefour.common.BeadColour;
-import scorefour.common.Drawable;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
-
-public class Bead implements Drawable {
+// Models should contain the objects data and logic, provide getter and setters to update its state, and be independent of the GUI.
+public class Bead {
 
     private final BeadColour colour;
-    private BufferedImage bead;
     private int x, y;
 
     public Bead(BeadColour colour) {
-        this.x = 0;
         this.colour = colour;
-        initializeColour();
+        this.x = 0;
+        this.y = 0;
     }
 
-    private void initializeColour() {
-        try {
-            if (colour == BeadColour.BLACK) {
-                bead = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/blackbead.png")));
-            } else if (colour == BeadColour.WHITE) {
-                System.out.println("NO IMAGE YET");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load bead image.");
-        }
+    public Object getColour() {
+        return colour;
     }
 
-    @Override
-    public void draw(Graphics g) {
-        g.drawImage(bead, x, y, null);
+    public int getX() {
+        return x;
     }
 
-    @Override
-    public void update() {
-        if (x < 800) {
-            x += 6;
-        } else {
-            x = -50;
-        }
-        y = 200;
+    public int getY() {
+        return y;
     }
 }
