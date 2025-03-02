@@ -1,8 +1,8 @@
 # Cappuccino Score Four
 
-Welcome to Team Cappuccino's Score Four game! ☕✨
+Welcome to Team Cappuccino's Score Four gameController! ☕✨
 
-This is a java based project of the classic Score Four strategy game, programmed by Team Cappuccino.
+This is a java based project of the classic Score Four strategy gameController, programmed by Team Cappuccino.
 
 # Team
 

@@ -7,11 +7,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class Window {
+/**
+ * A {@code Frame} creates a new {@link JFrame} where the contents of a {@link Panel} can be displayed.
+ */
+public class Frame {
     private final JFrame frame;
     private final BufferedImage[] icons;
 
-    public Window(Panel panel) {
+    /**
+     * Constructs a new {@code Frame} object and displays the given {@link Panel} on it.
+     * <p>
+     * This constructor also initializes the frames icons and title.
+     *
+     * @param panel a panel to be displayed
+     */
+    public Frame(Panel panel) {
         frame = new JFrame();
         icons = new BufferedImage[4];
         initializeIcons();
@@ -28,7 +38,7 @@ public class Window {
         frame.setVisible(true);
     }
 
-    public void initializeIcons() {
+    private void initializeIcons() {
         try {
             icons[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/icons/128x128.png")));
             icons[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/icons/64x64.png")));
@@ -39,6 +49,9 @@ public class Window {
         }
     }
 
+    /**
+     * This method releases the {@link Frame}'s resources and terminates it.
+     */
     public void dispose() {
         frame.dispose();
     }
