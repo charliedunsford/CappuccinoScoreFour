@@ -6,8 +6,8 @@ import scorefour.view.*;
 import java.awt.*;
 
 /**
- * The {@code Game} object manages the core logic of the game. This includes game transitions,
- * rendering, and updating game components.
+ * The {@code GameController} object manages the core logic of the game.
+ * This includes game transitions, rendering, and updating game components.
  * <p>
  * This class initializes various controllers, handles the game loop, and manages the GUI.
  */
@@ -22,7 +22,7 @@ public class GameController implements Runnable {
     private PlayingController playingController;
 
     /**
-     * Constructs the {@code Game} object, initializes the required classes, and starts the game.
+     * Constructs the {@code GameController} object, initializes the required classes, and starts the game.
      */
     public GameController() {
         this.audioController = new AudioController();
@@ -43,7 +43,7 @@ public class GameController implements Runnable {
     }
 
     /**
-     * Stops the game loop from continuing and closes the graphical user interface.
+     * Stops the game loop from continuing.
      */
     public void stopGame() {
         if (view.getPanel() != null) {
@@ -61,7 +61,7 @@ public class GameController implements Runnable {
     }
 
     /**
-     * Renders the graphics drawn from the current {@link GameState} to a {@code Panel}'s graphics component.
+     * Renders the graphics drawn from the current {@link GameState}.
      *
      * @param g the {@link Graphics} context used for rendering
      */
@@ -73,8 +73,7 @@ public class GameController implements Runnable {
     }
 
     /**
-     * The game loop of the {@link GameController} object, this method repaints if a panel exists and checks for object
-     * updates at a set frame rate.
+     * The game loop of the {@link GameController} object.
      */
     @Override
     public void run() {
@@ -105,29 +104,14 @@ public class GameController implements Runnable {
         }
     }
 
-    /**
-     * The {@link MenuController} handles all interactions, visuals, and logic of the games {@code MENU} state.
-     *
-     * @return {@link MenuController} of the {@link GameController} object
-     */
     public MenuController getMenu() {
         return menuController;
     }
 
-    /**
-     * The {@link PlayingController} handles all interactions, visuals, and logic of the games {@code PLAY} state.
-     *
-     * @return {@link PlayingController} of the {@link GameController} object
-     */
     public PlayingController getPlaying() {
         return playingController;
     }
 
-    /**
-     * {@code debugFPS} returns the current FPS.
-     *
-     * @return a integer value of the current frames per second
-     */
     public int getDebugFPS() {
         return debugFPS;
     }
