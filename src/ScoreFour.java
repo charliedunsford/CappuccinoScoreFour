@@ -1,8 +1,20 @@
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.gamemodes.*;
 import scorefour.common.GameMode;
 
+/**
+ * This program simulates a Score Four game.
+ *
+ * @author Team Cappuccino
+ */
 public class ScoreFour {
+
+    /**
+     * The {@code main} method is the starting point of the program and can be passed
+     * arguments to enter different {@link GameMode}'s.
+     *
+     * @param args string arguments which define the behavior of the program
+     */
     public static void main(String[] args) {
         GameMode mode;
 
