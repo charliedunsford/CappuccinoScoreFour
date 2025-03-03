@@ -1,5 +1,6 @@
 package scorefour.controller;
 
+import scorefour.common.ButtonAction;
 import scorefour.common.Controllable;
 import scorefour.common.GameState;
 import scorefour.view.ButtonView;
@@ -19,28 +20,30 @@ public class ButtonController implements Controllable {
     private final Rectangle bounds;
     private final ButtonView view;
     private final AudioController audioController;
-    private final GameState state;
+    private final ButtonAction action;
 
+    private final int hoverSound;
     private boolean hoverSoundPlayed = false;
     protected boolean mouseOver, mousePressed;
 
     /**
      * Constructs a {@code ButtonController} object with the given {@link ButtonView} used to display the button.
      * <p>
-     * The button also depends on {@link Rectangle} bounds to set its size and a {@link GameState} for the button
-     * to switch to when interacted with.
+     * The button also depends on {@link Rectangle} bounds to set its size and a {@link ButtonAction} for the button
+     * to execute when interacted with.
      * <p>
      * The {@code ButtonController} also initializes its own {@link AudioController} to create sound with.
      *
      * @param bounds the {@link Rectangle} object size of the button
      * @param view the {@link ButtonView} to render the object
-     * @param state the {@link GameState} for the object to switch to when interacted with
+     * @param action the {@link ButtonAction} for the object execute
      */
-    public ButtonController(Rectangle bounds, ButtonView view, GameState state) {
+    public ButtonController(Rectangle bounds, ButtonView view, ButtonAction action, int hoverSound, AudioController audioController) {
         this.bounds = bounds;
         this.view = view;
-        this.state = state;
-        this.audioController = new AudioController();
+        this.action = action;
+        this.hoverSound = hoverSound;
+        this.audioController = audioController;
     }
 
     /**
@@ -57,11 +60,10 @@ public class ButtonController implements Controllable {
             view.setIndex(1);
             if (!hoverSoundPlayed) {
                 hoverSoundPlayed = true;
-                audioController.playEffect(AudioController.MENU_HOVER);
+                audioController.playEffect(hoverSound);
             }
         }
         if (!mouseOver && hoverSoundPlayed) {
-            resetButton();
             hoverSoundPlayed = false;
         }
     }
@@ -94,10 +96,10 @@ public class ButtonController implements Controllable {
     }
 
     /**
-     * Applied the {@link GameState} passed to the button's constructor.
+     * Applied the {@link ButtonAction} passed to the button's constructor.
      */
-    public void applyGameState() {
-        GameState.state = state;
+    public void applyAction() {
+        action.execute();
     }
 
     /**
@@ -108,23 +110,6 @@ public class ButtonController implements Controllable {
      */
     public boolean isIn(MouseEvent e) {
         return bounds.contains(e.getX(), e.getY());
-    }
-
-    /**
-     * Returns the {@link GameState} passed to the button's constructor.
-     *
-     * @return {@link GameState} of button
-     */
-    public GameState getState() {
-        return state;
-    }
-
-    /**
-     * Resets the button to the default non interacted state.
-     */
-    public void resetButton() {
-        mouseOver = false;
-        mousePressed = false;
     }
 
     /**

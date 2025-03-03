@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.common.Command;
 
 /**
@@ -18,7 +18,6 @@ public class ClearCommand implements Command {
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("clear.");
-
     }
 
     /**
@@ -30,8 +29,7 @@ public class ClearCommand implements Command {
     @Override
     public void execute(Game game) {
         System.out.println("Clearing board.");
-        // Implement functionality here
-        // game.getPlayingGame().getBoard().clearBoard();
+        game.getPlaying().getBoardController().clearBoard();
     }
 
     /**

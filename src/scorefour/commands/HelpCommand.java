@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.common.Command;
 
 import java.util.List;
@@ -30,7 +30,6 @@ public class HelpCommand implements Command {
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("help.");
-
     }
 
     /**

@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.common.Command;
 
 /**
@@ -18,7 +18,6 @@ public class DebugCommand implements Command {
     @Override
     public boolean parse(String input) {
         return input.equalsIgnoreCase("debug.");
-
     }
 
     /**

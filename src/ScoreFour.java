@@ -1,4 +1,4 @@
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.gamemodes.*;
 import scorefour.common.GameMode;
 

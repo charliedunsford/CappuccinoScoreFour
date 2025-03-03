@@ -1,5 +1,6 @@
 package scorefour.controller;
 
+import scorefour.common.ButtonAction;
 import scorefour.common.Controllable;
 import scorefour.common.GameState;
 import scorefour.common.Interactable;
@@ -22,6 +23,8 @@ public class OverlayController implements Controllable, Interactable {
     private final ArrayList<ButtonController> buttons;
     private final Rectangle bounds;
     private final OverlayView view;
+    private final BoardController boardController;
+    private final AudioController effectAudioController;
 
     protected boolean mouseOver;
 
@@ -33,21 +36,26 @@ public class OverlayController implements Controllable, Interactable {
      * @param bounds the size of the interactable overlay
      * @param view the overlay view to be displayed
      */
-    public OverlayController(Rectangle bounds, OverlayView view) {
+    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController) {
         this.bounds = bounds;
         this.view = view;
+        this.boardController = boardController;
+        this.effectAudioController = new AudioController();
         buttons = new ArrayList<>();
         loadButtons();
     }
 
     private void loadButtons() {
-        Rectangle resetButtonBounds = new Rectangle(5, 600, 0, 0);
-        ButtonView resetButtonView = new ButtonView(resetButtonBounds, 2);
-        buttons.add(new ButtonController(resetButtonBounds, resetButtonView, GameState.QUIT));
+        ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
+        ButtonAction clearBoard = () -> { boardController.clearBoard(); };
+
+        Rectangle clearButtonBounds = new Rectangle(5, 600, 0, 0);
+        ButtonView clearButtonView = new ButtonView(clearButtonBounds, 2);
+        buttons.add(new ButtonController(clearButtonBounds, clearButtonView, clearBoard, AudioController.OPTION_HOVER, effectAudioController));
 
         Rectangle quitButtonBounds = new Rectangle(670, 600, 0, 0);
         ButtonView quitButtonView = new ButtonView(quitButtonBounds, 3);
-        buttons.add(new ButtonController(quitButtonBounds, quitButtonView, GameState.QUIT));
+        buttons.add(new ButtonController(quitButtonBounds, quitButtonView, quitGame, AudioController.OPTION_HOVER, effectAudioController));
     }
 
     /**
@@ -102,8 +110,7 @@ public class OverlayController implements Controllable, Interactable {
     public void mouseReleased(MouseEvent e) {
         for (ButtonController button : buttons) {
             if (button.isIn(e) && button.isMousePressed()) {
-                // Add Reset button action here
-                button.applyGameState();
+                button.applyAction();
             }
         }
     }

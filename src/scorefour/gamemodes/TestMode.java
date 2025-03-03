@@ -2,7 +2,7 @@ package scorefour.gamemodes;
 
 import scorefour.commands.*;
 import scorefour.common.GameState;
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.common.Command;
 import scorefour.common.GameMode;
 

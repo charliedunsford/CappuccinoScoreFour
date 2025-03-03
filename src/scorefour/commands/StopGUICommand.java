@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.common.Command;
 
 /**

@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-// Views should draw the current state of the object (in our case every game loop)
 public class BeadView implements Viewable {
 
     private final BeadColour colour;

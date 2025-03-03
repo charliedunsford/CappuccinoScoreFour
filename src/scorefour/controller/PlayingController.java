@@ -2,6 +2,7 @@ package scorefour.controller;
 
 import scorefour.common.Controllable;
 import scorefour.common.Interactable;
+import scorefour.model.Board;
 import scorefour.view.BoardView;
 import scorefour.view.OverlayView;
 import scorefour.view.PlayingView;
@@ -20,8 +21,8 @@ public class PlayingController implements Controllable, Interactable {
 
     private final PlayingView view;
     private final AudioController audioController;
-    private OverlayController overlay;
-    private BoardView board;
+    private OverlayController overlayController;
+    private BoardController boardController;
 
     /**
      * Constructs a {@code PlayingController} object with the given {@link PlayingView}.
@@ -30,18 +31,17 @@ public class PlayingController implements Controllable, Interactable {
      *
      * @param view the playing view used to render gameplay to the panel.
      */
-    public PlayingController(PlayingView view) {
+    public PlayingController(PlayingView view, AudioController audioController) {
         this.view = view;
-        this.audioController = new AudioController();
+        this.audioController = audioController;
         initializeClasses();
     }
 
     private void initializeClasses() {
-        Rectangle overlayBounds = new Rectangle(0, 485, 800, 160);
-        overlay = new OverlayController(overlayBounds, new OverlayView(45));
+        boardController = new BoardController(new Board(), new BoardView());
 
-        // BoardController will go here!
-        board = new BoardView();
+        Rectangle overlayBounds = new Rectangle(0, 485, 800, 160);
+        overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController);
     }
 
     /**
@@ -49,7 +49,8 @@ public class PlayingController implements Controllable, Interactable {
      */
     @Override
     public void update() {
-        overlay.update();
+        overlayController.update();
+        boardController.update();
     }
 
     /**
@@ -59,8 +60,8 @@ public class PlayingController implements Controllable, Interactable {
      */
     public void draw(Graphics g) {
         view.draw(g);
-        overlay.draw(g);
-        board.draw(g);
+        overlayController.draw(g);
+        boardController.draw(g);
     }
 
     /**
@@ -70,7 +71,8 @@ public class PlayingController implements Controllable, Interactable {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        overlay.mousePressed(e);
+        overlayController.mousePressed(e);
+        boardController.mousePressed(e);
     }
 
     /**
@@ -80,7 +82,8 @@ public class PlayingController implements Controllable, Interactable {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        overlay.mouseReleased(e);
+        overlayController.mouseReleased(e);
+        boardController.mouseReleased(e);
     }
 
     /**
@@ -90,8 +93,9 @@ public class PlayingController implements Controllable, Interactable {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        overlay.setMouseOver(overlay.isIn(e));
-        overlay.mouseMoved(e);
+        overlayController.setMouseOver(overlayController.isIn(e));
+        overlayController.mouseMoved(e);
+        boardController.mouseMoved(e);
     }
 
     /**
@@ -99,5 +103,9 @@ public class PlayingController implements Controllable, Interactable {
      */
     public AudioController getAudioController() {
         return audioController;
+    }
+
+    public BoardController getBoardController() {
+        return boardController;
     }
 }

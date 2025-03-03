@@ -1,6 +1,6 @@
 package scorefour.common;
 
-import scorefour.core.Game;
+import scorefour.model.Game;
 
 /**
  * A {@code Command} is a way the user can interact with the program using string in

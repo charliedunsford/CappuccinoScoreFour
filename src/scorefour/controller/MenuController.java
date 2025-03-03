@@ -1,5 +1,6 @@
 package scorefour.controller;
 
+import scorefour.common.ButtonAction;
 import scorefour.common.Controllable;
 import scorefour.common.GameState;
 import scorefour.common.Interactable;
@@ -22,6 +23,7 @@ public class MenuController implements Controllable, Interactable {
     private final ArrayList<ButtonController> buttons;
     private final MenuView view;
     private final AudioController audioController;
+    private final AudioController effectAudioController;
 
     /**
      * Constructs a {@code MenuController} object with the given {@link MenuView} used to display the menu.
@@ -30,21 +32,29 @@ public class MenuController implements Controllable, Interactable {
      *
      * @param view the playing view used to render the menu to the panel.
      */
-    public MenuController(MenuView view) {
+    public MenuController(MenuView view, AudioController audioController) {
         this.view = view;
-        this.audioController = new AudioController();
+        this.audioController = audioController;
+        this.effectAudioController = new AudioController();
         buttons = new ArrayList<>();
         loadButtons();
     }
 
     private void loadButtons() {
+        ButtonAction playGame = () -> {
+            audioController.stopSong();
+            GameState.state = GameState.PLAYING;
+            audioController.playSong(AudioController.GAME);
+        };
+        ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
+
         Rectangle playBounds = new Rectangle(160, 336, 0, 0);
         ButtonView playButtonView = new ButtonView(playBounds, 0);
-        buttons.add(new ButtonController(playBounds, playButtonView, GameState.PLAYING));
+        buttons.add(new ButtonController(playBounds, playButtonView, playGame, AudioController.OPTION_HOVER, effectAudioController));
 
         Rectangle quitBounds = new Rectangle(448, 336, 0, 0);
         ButtonView quitButtonView = new ButtonView(quitBounds, 1);
-        buttons.add(new ButtonController(quitBounds, quitButtonView, GameState.QUIT));
+        buttons.add(new ButtonController(quitBounds, quitButtonView, quitGame, AudioController.OPTION_HOVER, effectAudioController));
     }
 
     /**
@@ -93,14 +103,8 @@ public class MenuController implements Controllable, Interactable {
     public void mouseReleased(MouseEvent e) {
         for (ButtonController button : buttons) {
             if (button.isIn(e) && button.isMousePressed()) {
-                if (button.getState() == GameState.PLAYING) {
-                    audioController.stopSong();
-                    GameState.state = GameState.PLAYING;// Replace with more robust coding
-                    audioController.playSong(AudioController.GAME);
-                }
-                button.applyGameState();
+                button.applyAction();
             }
-            button.resetButton();
         }
     }
 

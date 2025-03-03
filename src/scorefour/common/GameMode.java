@@ -1,6 +1,6 @@
 package scorefour.common;
 
-import scorefour.core.Game;
+import scorefour.model.Game;
 
 /**
  * A {@code GameMode} allows a program to be run in various ways.

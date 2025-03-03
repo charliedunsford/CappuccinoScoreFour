@@ -1,13 +1,14 @@
 package scorefour.commands;
 
-import scorefour.core.Game;
+import scorefour.common.BeadColour;
+import scorefour.model.Game;
 import scorefour.common.Command;
 
 /**
  * The {@code AddCommand} allows the user to add a bead to a position, only if the move is valid.
  */
 public class AddCommand implements Command {
-    private String colour;
+    private BeadColour colour;
     private String position;
 
     /**
@@ -20,26 +21,48 @@ public class AddCommand implements Command {
     @Override
     public boolean parse(String input) {
 
+        // Checks if string starts with "add " and end with a period.
         if (!input.toLowerCase().startsWith("add ") || !input.endsWith(".")) {
             return false;
         }
 
+        // Removes the period at the end of the string.
         input = input.substring(0, input.length() - 1);
 
+        // Splits the string into parts and stores it in an array.
         String[] parts = input.split(" ");
 
+        // Checks if the string is the right amount of parts
         if (parts.length != 5) {
             return false;
         }
 
+        // Checks if string contains the proper command syntax.
         if (!parts[0].equalsIgnoreCase("add") ||
                 !parts[2].equalsIgnoreCase("bead") ||
                 !parts[3].equalsIgnoreCase("to")) {
             return false;
         }
 
-        colour = parts[1];
+        // Checks the string contains a valid colour and stores that colour into a variable.
+        if (parts[1].equalsIgnoreCase("black")) {
+            colour = BeadColour.BLACK;
+        } else if (parts[1].equalsIgnoreCase("white")) {
+            colour = BeadColour.WHITE;
+        } else {
+            System.err.println("Invalid Colour. Colours should be 'BLACK' or 'WHITE'.");
+            return false;
+        }
+
+        // Stores the position
         position = parts[4];
+
+        // Checks if the position contains a valid board position,
+        if (!position.matches("[A-D][1-4]")) {
+            System.err.println("Invalid position. Position should be a row A-D followed by a column 1-4.");
+            return false;
+        }
+
         return true;
     }
 
@@ -51,9 +74,7 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute(Game game) {
-        System.out.println("Adding " + colour + " bead to " + position);
-        // Implement functionality here
-        // game.getPlayingGame().getBoard().addBead(color, position);
+        game.getPlaying().getBoardController().addBead(position, colour);
     }
 
     /**

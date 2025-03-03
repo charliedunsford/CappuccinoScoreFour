@@ -1,7 +1,7 @@
 package scorefour.gamemodes;
 
 import scorefour.common.GameState;
-import scorefour.core.Game;
+import scorefour.model.Game;
 import scorefour.common.GameMode;
 import scorefour.controller.AudioController;
 

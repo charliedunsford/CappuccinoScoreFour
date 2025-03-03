@@ -51,9 +51,10 @@ public class ButtonView implements Viewable {
         return switch (row) {
             case 0 -> "playButton";
             case 1 -> "quitButton";
-            case 2 -> "resetButton";
+            case 2 -> "clearButton";
             case 3 -> "smallQuitButton";
-            default -> throw new IllegalStateException("Unexpected button value row " + row);
+            case 4 -> "peg";
+            default -> throw new IllegalStateException("Button row " + row + " does not exist.");
         };
     }
 

@@ -1,6 +1,7 @@
-package scorefour.core;
+package scorefour.model;
 
 import scorefour.common.GameState;
+import scorefour.controller.AudioController;
 import scorefour.controller.MenuController;
 import scorefour.controller.PlayingController;
 import scorefour.view.MenuView;
@@ -25,6 +26,7 @@ public class Game implements Runnable {
 
     private MenuController menuController;
     private PlayingController playingController;
+    private final AudioController audioController;
 
     /**
      * {@code PANEL_WIDTH} defines the width of the game panel.
@@ -39,13 +41,14 @@ public class Game implements Runnable {
      * Constructs the {@code Game} object, initializes the required classes, and starts the game.
      */
     public Game() {
+        this.audioController = new AudioController();
         initializeClasses();
         startGame();
     }
 
     private void initializeClasses() {
-        menuController = new MenuController(new MenuView());
-        playingController = new PlayingController(new PlayingView());
+        menuController = new MenuController(new MenuView(), audioController);
+        playingController = new PlayingController(new PlayingView(), audioController);
     }
 
     /**

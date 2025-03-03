@@ -2,7 +2,6 @@ package scorefour.model;
 
 import scorefour.common.BeadColour;
 
-// Models should contain the objects data and logic, provide getter and setters to update its state, and be independent of the GUI.
 public class Bead {
 
     private final BeadColour colour;
@@ -22,7 +21,15 @@ public class Bead {
         return x;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public int getY() {
         return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
