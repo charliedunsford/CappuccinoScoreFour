@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.model.Game;
+import scorefour.controller.GameController;
 import scorefour.common.Command;
 
 /**
@@ -24,12 +24,12 @@ public class DebugCommand implements Command {
      * Executes the {@link Command} by sending the commands information to the
      * game instance.
      *
-     * @param game the {@link Game} instance to interact with
+     * @param gameController the {@link GameController} instance to interact with
      */
     @Override
-    public void execute(Game game) {
+    public void execute(GameController gameController) {
         System.out.println("Getting debug information.\n" +
-                "Current FPS : " + game.getDebugFPS() + "\n" +
+                "Current FPS : " + gameController.getDebugFPS() + "\n" +
                 "Current Live Threads : " + Thread.activeCount());
     }
 

@@ -17,14 +17,12 @@ public class PlayingView implements Viewable {
 
     /**
      * Constructs a {@code PlayingView} which initializes a background image.
-     * <p>
-     * To render this view, call the {@code draw} method with a {@code Graphics} object.
      */
     public PlayingView() {
-        initializeBackground();
+        initializeBackgroundImage();
     }
 
-    private void initializeBackground() {
+    private void initializeBackgroundImage() {
         try {
             background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/playingBackground.png")));
         } catch (IOException e) {

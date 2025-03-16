@@ -99,17 +99,15 @@ public class AudioController {
      * @param effect integer or static value of effect
      */
     public void playEffect(int effect) {
-        stopEffect();
-
         currentEffect = effect;
         effects[effect].setMicrosecondPosition(0);
         effects[effect].start();
     }
 
     /**
-     * Stops the currently active {@link AudioController}'s effect
+     * Stops the currently active {@link AudioController}'s effect.
      */
-    public void stopEffect() {
+    public void stopEffect() { // might not need but keeping here just in case
         if (effects[currentEffect].isActive()) {
             effects[currentEffect].stop();
         }

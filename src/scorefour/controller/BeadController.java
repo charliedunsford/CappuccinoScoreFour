@@ -1,6 +1,6 @@
 package scorefour.controller;
 
-import scorefour.common.Controllable;
+import scorefour.common.Updatable;
 import scorefour.model.Bead;
 import scorefour.model.Board;
 import scorefour.view.BeadView;
@@ -13,7 +13,7 @@ import java.awt.*;
  * It coordinates with a {@link Bead}, {@link BeadView}, and location information to render and
  * control a bead on a {@link Board}.
  */
-public class BeadController implements Controllable {
+public class BeadController implements Updatable {
 
     private final Bead bead;
     private final BeadView view;

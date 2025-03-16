@@ -1,7 +1,7 @@
 package scorefour.controller;
 
 import scorefour.common.ButtonAction;
-import scorefour.common.Controllable;
+import scorefour.common.Updatable;
 import scorefour.common.GameState;
 import scorefour.view.ButtonView;
 
@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
  * It coordinates with {@link Rectangle} bounds, {@link ButtonView}, and {@link GameState} to render and
  * control a button by changing the {@link GameState}.
  */
-public class ButtonController implements Controllable {
+public class ButtonController implements Updatable {
 
     private final Rectangle bounds;
     private final ButtonView view;
@@ -108,7 +108,7 @@ public class ButtonController implements Controllable {
      * @param e the {@link MouseEvent} containing the current mouse position
      * @return {@code true} if the cursor is inside the button; {@code false} otherwise
      */
-    public boolean isIn(MouseEvent e) {
+    public boolean inBounds(MouseEvent e) {
         return bounds.contains(e.getX(), e.getY());
     }
 

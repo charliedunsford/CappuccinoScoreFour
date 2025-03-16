@@ -21,10 +21,10 @@ public class BoardView implements Viewable {
      * To render this view, call the {@code draw} method with a {@link Graphics} object.
      */
     public BoardView() {
-        initializeBoard();
+        loadBoardImage();
     }
 
-    private void initializeBoard() {
+    private void loadBoardImage() {
         try {
             board =  ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/board.png")));
         } catch (IOException e) {

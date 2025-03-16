@@ -32,10 +32,10 @@ public class ButtonView implements Viewable {
     public ButtonView(Rectangle bounds, int row) {
         this.bounds = bounds;
         this.row = row;
-        loadImages();
+        loadButtonImages();
     }
 
-    private void loadImages() {
+    private void loadButtonImages() {
         images = new BufferedImage[2];
         try {
             String buttonImage = getButtonImage();

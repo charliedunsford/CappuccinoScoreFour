@@ -18,11 +18,11 @@ public class BeadView implements Viewable {
 
     public BeadView(Bead bead) {
         this.bead = bead;
-        colour = (BeadColour) bead.getColour();
-        initializeColour();
+        colour = bead.getColour();
+        loadBeadImage();
     }
 
-    private void initializeColour() {
+    private void loadBeadImage() {
         try {
             if (colour == BeadColour.BLACK) {
                 beadSprite = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/blackbead.png")));

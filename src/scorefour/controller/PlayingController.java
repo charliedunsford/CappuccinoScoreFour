@@ -1,6 +1,6 @@
 package scorefour.controller;
 
-import scorefour.common.Controllable;
+import scorefour.common.Updatable;
 import scorefour.common.Interactable;
 import scorefour.model.Board;
 import scorefour.view.BoardView;
@@ -17,7 +17,7 @@ import java.awt.event.*;
  * It coordinates the {@link PlayingView}, {@link OverlayController},
  * and {@link BoardController} to render and control the in game interface.
  */
-public class PlayingController implements Controllable, Interactable {
+public class PlayingController implements Updatable, Interactable {
 
     private final PlayingView view;
     private final AudioController audioController;

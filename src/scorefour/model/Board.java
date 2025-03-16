@@ -31,4 +31,26 @@ public class Board {
     public Peg[][] getPegs() {
         return pegs;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        char[] rows = {'A', 'B', 'C', 'D'};
+
+        for (int row = 0; row < pegs.length; row++) {
+            for (int col = 0; col < pegs[row].length; col++) {
+                stringBuilder.append(rows[row]).append(col + 1).append(": ");
+
+                for (Bead bead : pegs[row][col].getBeads()) {
+                    if (bead != null) {
+                    BeadColour colour = bead.getColour();
+                    stringBuilder.append(colour == BeadColour.WHITE ? "W" : "B");
+                    }
+                }
+
+                stringBuilder.append("\n");
+            }
+        }
+        return stringBuilder.toString();
+    }
 }

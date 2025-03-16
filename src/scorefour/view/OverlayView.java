@@ -27,10 +27,10 @@ public class OverlayView implements Viewable {
      */
     public OverlayView(int y) {
         this.y = y;
-        loadOverlay();
+        loadOverlayImage();
     }
 
-    private void loadOverlay() {
+    private void loadOverlayImage() {
         try {
             overlay = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/overlay.png")));
         } catch (IOException e) {

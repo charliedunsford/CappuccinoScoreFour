@@ -1,7 +1,7 @@
 package scorefour.controller;
 
 import scorefour.common.ButtonAction;
-import scorefour.common.Controllable;
+import scorefour.common.Updatable;
 import scorefour.common.GameState;
 import scorefour.common.Interactable;
 import scorefour.view.ButtonView;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * It coordinates the {@link ButtonController} to render and control the in game interface by changing
  * the {@link GameState}.
  */
-public class MenuController implements Controllable, Interactable {
+public class MenuController implements Updatable, Interactable {
 
     private final ArrayList<ButtonController> buttons;
     private final MenuView view;
@@ -87,7 +87,7 @@ public class MenuController implements Controllable, Interactable {
     @Override
     public void mousePressed(MouseEvent e) {
         for (ButtonController button : buttons) {
-            if (button.isIn(e)) {
+            if (button.inBounds(e)) {
                 button.setMousePressed(true);
             }
         }
@@ -102,7 +102,7 @@ public class MenuController implements Controllable, Interactable {
     @Override
     public void mouseReleased(MouseEvent e) {
         for (ButtonController button : buttons) {
-            if (button.isIn(e) && button.isMousePressed()) {
+            if (button.inBounds(e) && button.isMousePressed()) {
                 button.applyAction();
             }
         }
@@ -116,7 +116,7 @@ public class MenuController implements Controllable, Interactable {
     @Override
     public void mouseMoved(MouseEvent e) {
         for (ButtonController button : buttons) {
-            button.setMouseOver((button.isIn(e)));
+            button.setMouseOver((button.inBounds(e)));
         }
     }
 

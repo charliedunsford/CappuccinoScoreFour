@@ -1,7 +1,7 @@
 package scorefour.gamemodes;
 
 import scorefour.common.GameState;
-import scorefour.model.Game;
+import scorefour.controller.GameController;
 import scorefour.common.GameMode;
 import scorefour.controller.AudioController;
 
@@ -15,12 +15,12 @@ public class NormalMode implements GameMode {
     /**
      * Initializes the game in {@link NormalMode} and starts the GUI and menu music.
      *
-     * @param game a {@link Game} instance to be used in this mode
+     * @param gameController a {@link GameController} instance to be used in this mode
      */
     @Override
-    public void setup(Game game) {
+    public void setup(GameController gameController) {
         GameState.state = GameState.MENU;
-        game.startGUI();
-        game.getMenu().getAudioController().playSong(AudioController.MENU);
+        gameController.getGameView().startGUI();
+        gameController.getMenu().getAudioController().playSong(AudioController.MENU);
     }
 }

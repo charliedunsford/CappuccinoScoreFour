@@ -19,10 +19,10 @@ public class MenuView implements Viewable {
      * To render this view, call the {@code draw} method with a {@link Graphics} object.
      */
     public MenuView() {
-        loadBackground();
+        loadBackgroundImage();
     }
 
-    private void loadBackground() {
+    private void loadBackgroundImage() {
         try {
             menuBackground = new ImageIcon(Objects.requireNonNull(getClass().getResource("/res/menu.gif")));
         } catch (Exception e) {

@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 
 public interface Interactable {
 
-    // void mouseClicked(MouseEvent e); would this be easier?
-
     /**
      * Communicates with controllers when a mouse button has been pressed.
      *

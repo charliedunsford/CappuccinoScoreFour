@@ -1,52 +1,51 @@
 package scorefour.view;
 
 import scorefour.controller.MouseInputs;
-import scorefour.model.Game;
+import scorefour.controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static scorefour.model.Game.PANEL_WIDTH;
-import static scorefour.model.Game.PANEL_HEIGHT;
+import static scorefour.view.GameView.PANEL_HEIGHT;
+import static scorefour.view.GameView.PANEL_WIDTH;
 
 /**
- * A {@code Panel} which acts as the main rendering and input handler for a {@link Game}
+ * A {@code Panel} which acts as the main rendering and input handler for a {@link GameController}
  */
 public class Panel extends JPanel {
-    private final Game game;
+    private final GameController gameController;
 
     /**
      * Constructs a new {@code Panel}.
      * <p>
-     * Accesses a {@link Game} to render, and creates listeners for user input.
+     * Accesses a {@link GameController} to render, and creates listeners for user input.
      *
-     * @param game the {@link Game} to be rendered
+     * @param gameController the {@link GameController} to be rendered
      */
-    public Panel(Game game) {
-        this.game = game;
+    public Panel(GameController gameController) {
+        this.gameController = gameController;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        MouseInputs mouseInputs = new MouseInputs(this);
 
+        MouseInputs mouseInputs = new MouseInputs(this);
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
 
     /**
-     * Paints a {@link Game} to a {@link Panel}
+     * Paints the contents of a {@link GameController} to the {@link Panel}
      *
      * @param g the {@link Graphics} context used for rendering
      */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        game.render(g2d);
+        gameController.render(g);
     }
 
     /**
-     * @return {@link Game} object passed to the {@link Panel}
+     * @return {@link GameController} object passed to the {@link Panel}
      */
-    public Game getGame() {
-        return game;
+    public GameController getGame() {
+        return gameController;
     }
 }

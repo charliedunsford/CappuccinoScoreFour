@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Not fully documented yet!
  */
-public class PegController implements Controllable, Interactable {
+public class PegController implements Updatable, Interactable {
 
     private final Peg peg;
     private final int row;
@@ -105,7 +105,7 @@ public class PegController implements Controllable, Interactable {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (button.isIn(e)) {
+        if (button.inBounds(e)) {
             button.setMousePressed(true);
         }
     }
@@ -118,7 +118,7 @@ public class PegController implements Controllable, Interactable {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (button.isIn(e) && button.isMousePressed()) {
+        if (button.inBounds(e) && button.isMousePressed()) {
             button.applyAction();
         }
         button.setMousePressed(false);
@@ -131,6 +131,6 @@ public class PegController implements Controllable, Interactable {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        button.setMouseOver(button.isIn(e));
+        button.setMouseOver(button.inBounds(e));
     }
 }

@@ -16,11 +16,9 @@ public class Peg {
         for (int i = 0; i < beads.length; i++) {
             if (beads[i] == null) {
                 beads[i] = new Bead(colour);
-                System.out.println("added bead");
                 return;
             }
         }
-        System.out.println("peg full");
     }
 
     public void removeBead() {
@@ -30,7 +28,6 @@ public class Peg {
                 return;
             }
         }
-        System.out.println("peg empty");
     }
 
     public void clearBeads() {

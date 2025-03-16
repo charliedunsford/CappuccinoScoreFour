@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.model.Game;
+import scorefour.controller.GameController;
 import scorefour.common.Command;
 
 import java.util.List;
@@ -36,10 +36,10 @@ public class HelpCommand implements Command {
      * Executes the {@link Command} by sending the commands information to the
      * game instance.
      *
-     * @param game the {@link Game} instance to interact with
+     * @param gameController the {@link GameController} instance to interact with
      */
     @Override
-    public void execute(Game game) {
+    public void execute(GameController gameController) {
         for (Command command : commands) {
             System.out.println(command.getHelp());
         }

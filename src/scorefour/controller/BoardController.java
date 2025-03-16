@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
  * This class pertains various logic for the {@link Peg} and {@link Bead} classes, as they relate to the
  * board.
  */
-public class BoardController implements Interactable, Controllable {
+public class BoardController implements Interactable, Updatable {
 
     private final Board board;
     private final BoardView view;
@@ -177,5 +177,9 @@ public class BoardController implements Interactable, Controllable {
                 pegController.mouseMoved(e);
             }
         }
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

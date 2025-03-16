@@ -2,7 +2,7 @@ package scorefour.gamemodes;
 
 import scorefour.commands.*;
 import scorefour.common.GameState;
-import scorefour.model.Game;
+import scorefour.controller.GameController;
 import scorefour.common.Command;
 import scorefour.common.GameMode;
 
@@ -21,7 +21,7 @@ public class TestMode implements GameMode {
 
     private final Scanner scanner;
     private final List<Command> commands;
-    private Game game;
+    private GameController gameController;
 
     /**
      * Constructs a new {@code TestMode} object which initializes the commands to be used during the programs runtime and
@@ -56,12 +56,12 @@ public class TestMode implements GameMode {
      * <p>
      * This mode sets the {@link GameState} to {@code PLAYING}.
      *
-     * @param game a {@link Game} instance to be used in this mode
+     * @param gameController a {@link GameController} instance to be used in this mode
      */
     @Override
-    public void setup(Game game) {
+    public void setup(GameController gameController) {
         GameState.state = PLAYING;
-        this.game = game;
+        this.gameController = gameController;
         startCommands();
     }
 
@@ -78,7 +78,7 @@ public class TestMode implements GameMode {
             }
             for (Command command : commands) {
                 if (command.parse(input)) {
-                    command.execute(game);
+                    command.execute(gameController);
                     match = true;
                     break;
                 }

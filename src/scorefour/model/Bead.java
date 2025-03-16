@@ -13,7 +13,7 @@ public class Bead {
         this.y = 0;
     }
 
-    public Object getColour() {
+    public BeadColour getColour() {
         return colour;
     }
 
