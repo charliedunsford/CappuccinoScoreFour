@@ -50,7 +50,6 @@ public class VSModeSelector implements Viewable {
         this.audio = new AudioController();
         this.currentModeIndex = 0; // Default to PVP
         this.hoverSoundPlayed = false;
-
         loadImages();
 
         // Create bounds for arrow click detection
