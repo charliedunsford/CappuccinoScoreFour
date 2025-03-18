@@ -2,6 +2,7 @@ package scorefour.model;
 
 import scorefour.common.GameState;
 import scorefour.controller.AudioController;
+import scorefour.controller.GameController;
 import scorefour.controller.MenuController;
 import scorefour.controller.PlayingController;
 import scorefour.view.MenuView;
@@ -58,7 +59,7 @@ public class Game implements Runnable {
         if (panel != null) {
             return;
         }
-        panel = new Panel(this);
+        //panel = new Panel(this);
         frame = new Frame(panel);
     }
 
