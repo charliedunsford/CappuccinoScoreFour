@@ -20,9 +20,7 @@ public class Board {
         }
     }
 
-    public void addBead(int[] position, BeadColour colour) {
-        pegs[position[0]][position[1]].addBead(colour);
-    }
+    public void addBead(int[] position, BeadColour colour) {pegs[position[0]][position[1]].addBead(colour);}
 
     public void removeBead(int[] position) {
         pegs[position[0]][position[1]].removeBead();
