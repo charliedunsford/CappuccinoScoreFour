@@ -25,6 +25,8 @@ public class MenuController implements Updatable, Interactable {
     private final AudioController audioController;
     private final AudioController effectAudioController;
 
+    private int vsSelectorRow;
+
     /**
      * Constructs a {@code MenuController} object with the given {@link MenuView} used to display the menu.
      * <p>
@@ -41,12 +43,26 @@ public class MenuController implements Updatable, Interactable {
     }
 
     private void loadButtons() {
+        vsSelectorRow = 5;
+
         ButtonAction playGame = () -> {
             audioController.stopSong();
-            GameState.state = GameState.PLAYING;
+            GameState.state = GameState.GAME;
             audioController.playSong(AudioController.GAME);
         };
         ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
+        ButtonAction vsSelector = () -> {
+            // Set players here
+            if (vsSelectorRow < 7) {
+                buttons.getFirst().getButtonView().setRow(++vsSelectorRow);
+            } else if (vsSelectorRow == 7) {
+                buttons.getFirst().getButtonView().setRow(vsSelectorRow = 5);
+            }
+        };
+
+        Rectangle vsSelectorBounds = new Rectangle(300, 500, 0, 0);
+        ButtonView vsSelectorView = new ButtonView(vsSelectorBounds, 5);
+        buttons.add(new ButtonController(vsSelectorBounds, vsSelectorView, vsSelector, AudioController.OPTION_HOVER, effectAudioController));
 
         Rectangle playBounds = new Rectangle(160, 336, 0, 0);
         ButtonView playButtonView = new ButtonView(playBounds, 0);

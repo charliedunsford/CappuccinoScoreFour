@@ -20,7 +20,9 @@ public class Board {
         }
     }
 
-    public void addBead(int[] position, BeadColour colour) {pegs[position[0]][position[1]].addBead(colour);}
+    public void addBead(int[] position, BeadColour colour) {
+        pegs[position[0]][position[1]].addBead(colour);
+    }
 
     public void removeBead(int[] position) {
         pegs[position[0]][position[1]].removeBead();
@@ -28,6 +30,30 @@ public class Board {
 
     public Peg[][] getPegs() {
         return pegs;
+    }
+
+    public boolean isFull() {
+        for (Peg[] row : getPegs()) {
+            for (Peg peg : row) {
+                if (!peg.isFull()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Clears all the {@link Peg}'s on the {@link Board}.
+     */
+    public void clearBoard() {
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                if (pegs[row][col] != null) {
+                    pegs[row][col].clearBeads();
+                }
+            }
+        }
     }
 
     @Override

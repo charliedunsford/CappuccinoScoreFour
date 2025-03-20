@@ -1,9 +1,6 @@
 package scorefour.controller;
 
-import scorefour.common.ButtonAction;
-import scorefour.common.Updatable;
-import scorefour.common.GameState;
-import scorefour.common.Interactable;
+import scorefour.common.*;
 import scorefour.view.ButtonView;
 import scorefour.view.OverlayView;
 
@@ -25,6 +22,7 @@ public class OverlayController implements Updatable, Interactable {
     private final OverlayView view;
     private final BoardController boardController;
     private final AudioController effectAudioController;
+    private final GameManager gameManager;
 
     protected boolean mouseOver;
 
@@ -36,11 +34,12 @@ public class OverlayController implements Updatable, Interactable {
      * @param bounds the size of the interactable overlay
      * @param view the overlay view to be displayed
      */
-    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController) {
+    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController, GameManager gameManager) {
         this.bounds = bounds;
         this.view = view;
         this.boardController = boardController;
         this.effectAudioController = new AudioController();
+        this.gameManager = gameManager;
         buttons = new ArrayList<>();
         loadButtons();
     }
@@ -79,6 +78,14 @@ public class OverlayController implements Updatable, Interactable {
                     button.setY(button.getY() + 3);
                 }
             }
+        }
+
+        view.setScore(gameManager.getScore());
+
+        if (boardController.getGameManager().getCurrentPlayer().getColour() == BeadColour.WHITE) {
+            view.setCurrentPlayerColour(BeadColour.WHITE);
+        } else {
+            view.setCurrentPlayerColour(BeadColour.BLACK);
         }
 
         for (ButtonController button : buttons) {

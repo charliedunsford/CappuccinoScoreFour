@@ -36,6 +36,10 @@ public class Peg {
         }
     }
 
+    public boolean isFull() {
+        return beads[beads.length - 1] != null;
+    }
+
     public Bead[] getBeads() {
         return beads;
     }

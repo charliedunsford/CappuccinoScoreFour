@@ -1,19 +1,11 @@
 package scorefour.player;
 
+import scorefour.common.BeadColour;
+
 public class HumanPlayer extends Player {
 
-    public HumanPlayer() {
-        super();
+
+    public HumanPlayer(BeadColour colour) {
+        super(colour);
     }
-
-    public HumanPlayer(Player player) {
-        super(player);
-    }
-
-
-
-
-
-
-
 }

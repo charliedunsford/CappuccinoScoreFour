@@ -1,138 +1,125 @@
 package scorefour.controller;
 
+import scorefour.common.BeadColour;
 import scorefour.common.GameState;
-import scorefour.view.*;
+import scorefour.common.Updatable;
+import scorefour.common.Interactable;
+import scorefour.model.Board;
+import scorefour.player.Player;
+import scorefour.view.BoardView;
+import scorefour.view.OverlayView;
+import scorefour.view.GameView;
 
 import java.awt.*;
+import java.awt.event.*;
 
 /**
- * The {@code Game} object manages the core logic of the game. This includes game transitions,
- * rendering, and updating game components.
+ * {@code PlayingController} manages the play state interactions, updates, drawing, and
+ * user input handling.
  * <p>
- * This class initializes various controllers, handles the game loop, and manages the GUI.
+ * It coordinates the {@link GameView}, {@link OverlayController},
+ * and {@link BoardController} to render and control the in game interface.
  */
-public class GameController implements Runnable {
+public class GameController implements Updatable, Interactable {
 
-    private int debugFPS;
-    private volatile boolean running;
-
-    private final AudioController audioController;
     private final GameView view;
-    private MenuController menuController;
-    private PlayingController playingController;
+    private final AudioController audioController;
+    private GameManager gameManager;
+    private OverlayController overlayController;
+    private BoardController boardController;
 
     /**
-     * Constructs the {@code Game} object, initializes the required classes, and starts the game.
+     * Constructs a {@code PlayingController} object with the given {@link GameView}.
+     * <p>
+     * Initializes the overlay and board components for gameplay.
+     *
+     * @param view the playing view used to render gameplay to the panel.
      */
-    public GameController() {
-        this.audioController = new AudioController();
-        this.view = new GameView(this);
-        initializeControllers();
-        startGame();
+    public GameController(GameView view, AudioController audioController) {
+        this.view = view;
+        this.audioController = audioController;
+        initializeClasses();
     }
 
-    private void initializeControllers() {
-        menuController = new MenuController(view.getMenuView(), audioController);
-        playingController = new PlayingController(view.getPlayingView(), audioController);
-    }
+    private void initializeClasses() {
+        Board board = new Board();
+        Player whitePlayer = new Player(BeadColour.WHITE);
+        Player blackPlayer = new Player(BeadColour.BLACK);
 
-    private void startGame() {
-        running = true;
-        Thread gameThread = new Thread(this);
-        gameThread.start();
+        gameManager = new GameManager(board, whitePlayer, blackPlayer);
+
+        boardController = new BoardController(board, new BoardView(), gameManager);
+
+        Rectangle overlayBounds = new Rectangle(0, 485, 800, 160);
+        overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController, gameManager);
     }
 
     /**
-     * Stops the game loop from continuing and closes the graphical user interface.
+     * Updates the overlay used by the {@code PlayingController}.
      */
-    public void stopGame() {
-        if (view.getPanel() != null) {
-            view.stopGUI();
-        }
-        running = false;
-    }
+    @Override
+    public void update() {
+        overlayController.update();
+        boardController.update();
 
-    private void update() {
-        switch (GameState.state) {
-            case MENU -> menuController.update();
-            case PLAYING -> playingController.update();
-            case QUIT -> System.exit(0);
+        if (gameManager.getScore()[0] > 9 || gameManager.getScore()[1] > 9) {
+            gameManager.resetScore();
         }
     }
 
     /**
-     * Renders the graphics drawn from the current {@link GameState} to a {@code Panel}'s graphics component.
+     * Draws the {@link GameView}, {@link OverlayController}, and {@link BoardController}.
      *
      * @param g the {@link Graphics} context used for rendering
      */
-    public void render(Graphics g) {
-        switch (GameState.state) {
-            case MENU -> menuController.draw(g);
-            case PLAYING -> playingController.draw(g);
-        }
+    public void draw(Graphics g) {
+        view.draw(g);
+        overlayController.draw(g);
+        boardController.draw(g);
     }
 
     /**
-     * The game loop of the {@link GameController} object, this method repaints if a panel exists and checks for object
-     * updates at a set frame rate.
+     * Communicates with {@link OverlayController} when a mouse button has been pressed.
+     *
+     * @param e the {@link MouseEvent} containing the mouse press status
      */
     @Override
-    public void run() {
-        int FPS = 60;
-        final double drawInterval = 1000000000.0 / FPS;
-        int frames = 0;
-        long previousTime = System.nanoTime();
-        long time = System.currentTimeMillis();
-        double delta = 0;
-
-        while (running) {
-            long currentTime = System.nanoTime();
-            delta += (currentTime - previousTime) / drawInterval;
-            previousTime = currentTime;
-
-            if (delta >= 1) {
-                update();
-                view.repaint();
-                delta--;
-                frames++;
-
-                if (System.currentTimeMillis() - time >= 1000) {
-                    debugFPS = frames;
-                    frames = 0;
-                    time += 1000;
-                }
-            }
-        }
+    public void mousePressed(MouseEvent e) {
+        overlayController.mousePressed(e);
+        boardController.mousePressed(e);
     }
 
     /**
-     * The {@link MenuController} handles all interactions, visuals, and logic of the games {@code MENU} state.
+     * Communicates with {@link OverlayController} when the mouse has been released.
      *
-     * @return {@link MenuController} of the {@link GameController} object
+     * @param e the {@link MouseEvent} containing the mouse release status
      */
-    public MenuController getMenu() {
-        return menuController;
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        overlayController.mouseReleased(e);
+        boardController.mouseReleased(e);
     }
 
     /**
-     * The {@link PlayingController} handles all interactions, visuals, and logic of the games {@code PLAY} state.
+     * Checks when a mouse has been moved and detects where the mouse is in a {@link Panel}.
      *
-     * @return {@link PlayingController} of the {@link GameController} object
+     * @param e the {@link MouseEvent} containing the new mouse position
      */
-    public PlayingController getPlaying() {
-        return playingController;
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        overlayController.setMouseOver(overlayController.isIn(e));
+        overlayController.mouseMoved(e);
+        boardController.mouseMoved(e);
     }
 
     /**
-     * {@code debugFPS} returns the current FPS.
-     *
-     * @return a integer value of the current frames per second
+     * @return the {@link AudioController} used by the playing state
      */
-    public int getDebugFPS() {
-        return debugFPS;
+    public AudioController getAudioController() {
+        return audioController;
     }
 
-    public GameView getGameView() {
-        return view;
+    public BoardController getBoardController() {
+        return boardController;
     }
 }

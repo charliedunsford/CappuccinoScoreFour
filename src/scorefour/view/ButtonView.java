@@ -16,7 +16,7 @@ public class ButtonView implements Viewable {
 
     private final Rectangle bounds;
     private BufferedImage[] images;
-    private final int row;
+    private int row;
     private int index;
 
     /**
@@ -54,6 +54,9 @@ public class ButtonView implements Viewable {
             case 2 -> "clearButton";
             case 3 -> "smallQuitButton";
             case 4 -> "peg";
+            case 5 -> "pvp";
+            case 6 -> "pvc";
+            case 7 -> "cvc";
             default -> throw new IllegalStateException("Button row " + row + " does not exist.");
         };
     }
@@ -65,6 +68,11 @@ public class ButtonView implements Viewable {
      */
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+        loadButtonImages();
     }
 
     /**

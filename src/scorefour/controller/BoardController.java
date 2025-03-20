@@ -24,6 +24,7 @@ public class BoardController implements Interactable, Updatable {
     private final Board board;
     private final BoardView view;
     private final AudioController audioController;
+    private final GameManager gameManager;
 
     private PegController[][] pegControllers;
 
@@ -36,10 +37,11 @@ public class BoardController implements Interactable, Updatable {
      * @param board the {@link Board} where the game takes place
      * @param view the {@link BoardView} which renders the board
      */
-    public BoardController(Board board, BoardView view) {
+    public BoardController(Board board, BoardView view, GameManager gameManager) {
         this.board = board;
         this.view = view;
         this.audioController = new AudioController();
+        this.gameManager = gameManager;
         initializePegControllers();
     }
 
@@ -52,7 +54,7 @@ public class BoardController implements Interactable, Updatable {
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                pegControllers[row][col] = new PegController(pegs[row][col], row, col, audioController);
+                pegControllers[row][col] = new PegController(pegs[row][col], row, col, audioController, gameManager);
             }
         }
     }
@@ -84,14 +86,7 @@ public class BoardController implements Interactable, Updatable {
      * Clears all the {@link Peg}'s on the {@link Board}.
      */
     public void clearBoard() {
-        Peg[][] pegs = board.getPegs();
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (pegs[row][col] != null) {
-                    pegs[row][col].clearBeads();
-                }
-            }
-        }
+        board.clearBoard();
     }
 
     /**
@@ -181,5 +176,9 @@ public class BoardController implements Interactable, Updatable {
 
     public Board getBoard() {
         return board;
+    }
+
+    public GameManager getGameManager() {
+        return gameManager;
     }
 }

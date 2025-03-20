@@ -136,4 +136,8 @@ public class ButtonController implements Updatable {
     public int getY() {
         return bounds.y;
     }
+
+    public ButtonView getButtonView() {
+        return view;
+    }
 }
