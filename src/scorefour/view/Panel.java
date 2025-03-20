@@ -15,6 +15,9 @@ import static scorefour.view.GameView.PANEL_WIDTH;
 public class Panel extends JPanel {
     private final GameController gameController;
 
+    WidgetsView widgetsView = new WidgetsView();
+    WinLoseIndicator winLoseIndicator = new WinLoseIndicator();
+
     /**
      * Constructs a new {@code Panel}.
      * <p>
@@ -25,10 +28,12 @@ public class Panel extends JPanel {
     public Panel(GameController gameController) {
         this.gameController = gameController;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        this.add(widgetsView);
 
         MouseInputs mouseInputs = new MouseInputs(this);
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
+
     }
 
     /**
