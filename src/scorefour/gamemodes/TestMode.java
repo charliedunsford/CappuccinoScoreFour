@@ -2,7 +2,7 @@ package scorefour.gamemodes;
 
 import scorefour.commands.*;
 import scorefour.common.GameState;
-import scorefour.controller.GameController;
+import scorefour.controller.ProgramController;
 import scorefour.common.Command;
 import scorefour.common.GameMode;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static scorefour.common.GameState.PLAYING;
+import static scorefour.common.GameState.GAME;
 
 /**
  * {@code TestMode} is a {@link GameMode} which allows the user to control the program through commands.
@@ -21,7 +21,7 @@ public class TestMode implements GameMode {
 
     private final Scanner scanner;
     private final List<Command> commands;
-    private GameController gameController;
+    private ProgramController programController;
 
     /**
      * Constructs a new {@code TestMode} object which initializes the commands to be used during the programs runtime and
@@ -56,12 +56,12 @@ public class TestMode implements GameMode {
      * <p>
      * This mode sets the {@link GameState} to {@code PLAYING}.
      *
-     * @param gameController a {@link GameController} instance to be used in this mode
+     * @param programController a {@link ProgramController} instance to be used in this mode
      */
     @Override
-    public void setup(GameController gameController) {
-        GameState.state = PLAYING;
-        this.gameController = gameController;
+    public void setup(ProgramController programController) {
+        GameState.state = GAME;
+        this.programController = programController;
         startCommands();
     }
 
@@ -78,7 +78,7 @@ public class TestMode implements GameMode {
             }
             for (Command command : commands) {
                 if (command.parse(input)) {
-                    command.execute(gameController);
+                    command.execute(programController);
                     match = true;
                     break;
                 }

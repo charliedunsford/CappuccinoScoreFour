@@ -23,22 +23,28 @@ public class PegController implements Updatable, Interactable {
     private final ButtonController button;
     private final List<BeadController> beadControllers;
     private final AudioController audioController;
+    private final GameManager gameManager;
 
     private static final int BEAD_SPACING = 37;
 
-    public PegController(Peg peg, int row, int col, AudioController audioController) {
+    public PegController(Peg peg, int row, int col, AudioController audioController, GameManager gameManager) {
         this.peg = peg;
         this.row = row;
         this.col = col;
         this.audioController = audioController;
+        this.gameManager = gameManager;
         this.button = createPegButton();
         this.beadControllers = new ArrayList<>();
     }
 
     private ButtonController createPegButton() {
         ButtonAction addBead = () -> {
-            peg.addBead(BeadColour.BLACK);
-            audioController.playEffect(AudioController.FALLING);
+            BeadColour currentColor = gameManager.getCurrentPlayer().getColour();
+            if (!peg.isFull()) {
+                peg.addBead(currentColor);
+                audioController.playEffect(AudioController.FALLING);
+                gameManager.handleMove();
+            }
         };
 
         int x = 218 + col * 162 - (row * 53);

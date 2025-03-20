@@ -1,4 +1,4 @@
-import scorefour.controller.GameController;
+import scorefour.controller.ProgramController;
 import scorefour.gamemodes.*;
 import scorefour.common.GameMode;
 
@@ -28,6 +28,6 @@ public class ScoreFour {
             return;
         }
 
-        mode.setup(new GameController());
+        mode.setup(new ProgramController());
     }
 }

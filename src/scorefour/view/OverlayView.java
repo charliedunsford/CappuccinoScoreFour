@@ -1,11 +1,14 @@
 package scorefour.view;
 
+import scorefour.common.BeadColour;
 import scorefour.common.Viewable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 /**
@@ -14,7 +17,11 @@ import java.util.Objects;
 public class OverlayView implements Viewable {
 
     private BufferedImage overlay;
-    private int y;
+    private BufferedImage turnIndicator;
+    private int y, blackScore, whiteScore;
+    private BeadColour currentPlayerColour;
+
+    private Font font;
 
     /**
      * Constructs a {@code OverlayView} which stores a overlay image.
@@ -27,14 +34,25 @@ public class OverlayView implements Viewable {
      */
     public OverlayView(int y) {
         this.y = y;
-        loadOverlayImage();
+        loadOverlayImages();
+        loadCustomFont();
     }
 
-    private void loadOverlayImage() {
+    private void loadOverlayImages() {
         try {
             overlay = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/overlay.png")));
+            turnIndicator = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/arrow.png")));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load in game images.");
+            throw new RuntimeException("Failed to load overlay images.");
+        }
+    }
+
+    private void loadCustomFont() {
+        try {
+            InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("res/fonts/Daydream.ttf");
+            font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(48f);
+        } catch (IOException|FontFormatException e) {
+            throw new RuntimeException("Failed to load font.");
         }
     }
 
@@ -52,6 +70,15 @@ public class OverlayView implements Viewable {
         this.y = y;
     }
 
+    public void setCurrentPlayerColour(BeadColour colour) {
+        this.currentPlayerColour = colour;
+    }
+
+    public void setScore(int[] score) {
+        this.blackScore = score[0];
+        this.whiteScore = score[1];
+    }
+
     /**
      * The {@code draw} method is accessed by a {@link Panel} class to be drawn on a {@link Frame}
      *
@@ -60,5 +87,17 @@ public class OverlayView implements Viewable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(overlay, 0, y, null);
+
+        g.setColor(Color.black);
+        g.setFont(font);
+        g.drawString(String.valueOf(blackScore), 210, y + 520);
+        g.drawString(String.valueOf(whiteScore), 545, y + 520);
+
+
+        if (currentPlayerColour == BeadColour.WHITE) {
+            g.drawImage(turnIndicator, 385, y + 495, 32, 36, null);
+        } else {
+            g.drawImage(turnIndicator, 385 + 32, y + 495, -32, 36, null);
+        }
     }
 }
