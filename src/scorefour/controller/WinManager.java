@@ -4,17 +4,30 @@ import scorefour.model.Board;
 import scorefour.model.Line;
 import scorefour.model.Peg;
 
+/**
+ * A {@link WinManager} checks potential lines of the {@link Board} for wins.
+ */
 public class WinManager {
 
     private Line[] lines;
     private final Peg[][] pegs;
 
+    /**
+     * Constructs a new {@link WinManager}.
+     *
+     * @param board the {@link Board} to check for potential win states.
+     */
     public WinManager(Board board) {
         pegs = board.getPegs();
     }
 
+    /**
+     * Checks whether the game has been won.
+     *
+     * @return true if game has been won; false otherwise.
+     */
     public boolean isGameWon() {
-        addLines();
+        checkLines();
 
         for (Line line : lines) {
             if (line.isWin()) {
@@ -26,7 +39,8 @@ public class WinManager {
 
     }
 
-    private void addLines() {
+    // Checks all lines of the game for a win.
+    private void checkLines() {
         lines = new Line[76];
         int currentLine = 0;
 

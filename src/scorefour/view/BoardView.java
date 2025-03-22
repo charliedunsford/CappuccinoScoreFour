@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * {@code BoardView} initializes a fixed visual board and provides a way to {@code draw} these graphics to a {@link Panel}.
+ * {@link BoardView} initializes a fixed visual board and provides a way to {@code draw} these graphics to a {@link Panel}.
  */
 public class BoardView implements Viewable {
 
     private BufferedImage board;
 
     /**
-     * Constructs a {@code BoardView} which initializes the board image
+     * Constructs a {@link BoardView} which initializes the board image.
      *<p>
      * To render this view, call the {@code draw} method with a {@link Graphics} object.
      */
@@ -26,6 +26,7 @@ public class BoardView implements Viewable {
         loadBoardImage();
     }
 
+    // Loads the image of the board to be displayed in game.
     private void loadBoardImage() {
         try {
             board =  ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/board.png")));
@@ -44,7 +45,7 @@ public class BoardView implements Viewable {
         g.drawImage(board, 0, 0, null);
     }
 
-
+    // An ASCII representation of the board.
     public static void printASCIIBoard(Board board) { // Prints the ASCII view of the board to System.out
 
         // converts board to 3-dimensional char array where | = no bead, X = black and O = white

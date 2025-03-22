@@ -30,7 +30,7 @@ public class StopGUICommand implements Command {
     @Override
     public void execute(ProgramController programController) {
         System.out.println("Stopping gui.");
-        programController.getGameView().stopGUI();
+        programController.getProgramView().stopGUI();
         programController.getPlaying().getAudioController().stopSong();
     }
 

@@ -8,14 +8,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * {@code MouseInputs} listens to various user inputs which occur in a designated {@link Panel}.
+ * {@link MouseInputs} listens to various user inputs which occur in a designated {@link Panel}.
  */
 public class MouseInputs implements MouseListener, MouseMotionListener {
 
     private final Panel panel;
 
     /**
-     * Constructs a new {@code MouseInput} and assigns it to listen to a {@link Panel}.
+     * Constructs a new {@link MouseInputs} and assigns it to listen to a {@link Panel}.
      *
      * @param panel to listen to user inputs
      */
@@ -23,6 +23,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         this.panel = panel;
     }
 
+    // Not used.
     @Override
     public void mouseClicked(MouseEvent e) {}
 
@@ -52,16 +53,19 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         }
     }
 
+    // Not used.
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
+    // Not used.
     @Override
     public void mouseExited(MouseEvent e) {
 
     }
 
+    // Not used.
     @Override
     public void mouseDragged(MouseEvent e) {
     }

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * {@code MenuView} initializes a fixed visual overlay and provides a way to {@code draw} these graphics to a {@link Panel}.
+ * {@link MenuView} initializes a fixed visual overlay and provides a way to {@code draw} these graphics to a {@link Panel}.
  */
 public class MenuView implements Viewable {
 
@@ -22,6 +22,7 @@ public class MenuView implements Viewable {
         loadBackgroundImage();
     }
 
+    // Loads the gif which plays in the menu background.
     private void loadBackgroundImage() {
         try {
             menuBackground = new ImageIcon(Objects.requireNonNull(getClass().getResource("/res/menu.gif")));

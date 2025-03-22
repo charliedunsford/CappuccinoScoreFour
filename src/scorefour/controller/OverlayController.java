@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * {@code OverlayController} manages the in game overlay interactions, updates, drawing, and
+ * {@link OverlayController} manages the in game overlay interactions, updates, drawing, and
  * user input handling.
  * <p>
  * It coordinates the {@link OverlayView} and {@link ButtonController}
@@ -17,36 +17,46 @@ import java.util.ArrayList;
  */
 public class OverlayController implements Updatable, Interactable {
 
+    private final BoardController boardController;
+    private final AudioController effectAudioController;
+    private final AudioController audioController;
+    private final GameManager gameManager;
+
     private final ArrayList<ButtonController> buttons;
     private final Rectangle bounds;
     private final OverlayView view;
-    private final BoardController boardController;
-    private final AudioController effectAudioController;
-    private final GameManager gameManager;
 
     protected boolean mouseOver;
 
     /**
-     * Constructs a {@code OverlayController} object with the given {@link Rectangle} bounds and {@link OverlayView}.
+     * Constructs a {@link OverlayController} object with the given {@link Rectangle} bounds and {@link OverlayView}.
      * <p>
      * Initializes the button components to be displayed on the overlay.
      *
      * @param bounds the size of the interactable overlay
      * @param view the overlay view to be displayed
      */
-    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController, GameManager gameManager) {
+    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController, GameManager gameManager, AudioController audioController) {
         this.bounds = bounds;
         this.view = view;
         this.boardController = boardController;
         this.effectAudioController = new AudioController();
         this.gameManager = gameManager;
+        this.audioController = audioController;
         buttons = new ArrayList<>();
         loadButtons();
     }
 
+    // Loads all buttons on the overlay.
     private void loadButtons() {
         ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
         ButtonAction clearBoard = () -> { boardController.clearBoard(); };
+        ButtonAction menu = () -> {
+            GameState.state = GameState.MENU;
+            audioController.playSong(AudioController.MENU);
+            gameManager.resetGame();
+            gameManager.resetScore();
+        };
 
         Rectangle clearButtonBounds = new Rectangle(5, 600, 0, 0);
         ButtonView clearButtonView = new ButtonView(clearButtonBounds, 2);
@@ -55,10 +65,14 @@ public class OverlayController implements Updatable, Interactable {
         Rectangle quitButtonBounds = new Rectangle(670, 600, 0, 0);
         ButtonView quitButtonView = new ButtonView(quitButtonBounds, 3);
         buttons.add(new ButtonController(quitButtonBounds, quitButtonView, quitGame, AudioController.OPTION_HOVER, effectAudioController));
+
+        Rectangle menuButtonBounds = new Rectangle(330, 600, 0, 0);
+        ButtonView menuButtonView = new ButtonView(menuButtonBounds, 8);
+        buttons.add(new ButtonController(menuButtonBounds, menuButtonView, menu, AudioController.OPTION_HOVER, effectAudioController));
     }
 
     /**
-     * Updates all components which may change in the {@code OverlayController}.
+     * Updates all components which may change in the {@link OverlayController}.
      * <p>
      * Raises the {@link OverlayView} when the {@link MouseInputs} detect that the mouse is over the overlay.
      */

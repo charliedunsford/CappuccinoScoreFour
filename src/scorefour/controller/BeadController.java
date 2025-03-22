@@ -8,7 +8,7 @@ import scorefour.view.BeadView;
 import java.awt.*;
 
 /**
- * {@code BeadController} manages a beads interactions, updates, and drawing.
+ * {@link BeadController} manages a beads interactions, updates, and drawing.
  * <p>
  * It coordinates with a {@link Bead}, {@link BeadView}, and location information to render and
  * control a bead on a {@link Board}.
@@ -21,7 +21,7 @@ public class BeadController implements Updatable {
     private boolean atTarget;
 
     /**
-     * Builds a {@code BeadController} object which modifies the state of a {@link Bead} object,
+     * Builds a {@link BeadController} object which modifies the state of a {@link Bead} object,
      * and renders these changes to the {@link BeadView}.
      *
      * @param bead the {@link Bead} object to modify

@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * {@code ButtonController} manages a buttons interactions, updates, drawing, and
+ * {@link ButtonController} manages a buttons interactions, updates, drawing, and
  * user input handling.
  * <p>
  * It coordinates with {@link Rectangle} bounds, {@link ButtonView}, and {@link GameState} to render and
@@ -27,12 +27,12 @@ public class ButtonController implements Updatable {
     protected boolean mouseOver, mousePressed;
 
     /**
-     * Constructs a {@code ButtonController} object with the given {@link ButtonView} used to display the button.
+     * Constructs a {@link ButtonController} object with the given {@link ButtonView} used to display the button.
      * <p>
      * The button also depends on {@link Rectangle} bounds to set its size and a {@link ButtonAction} for the button
      * to execute when interacted with.
      * <p>
-     * The {@code ButtonController} also initializes its own {@link AudioController} to create sound with.
+     * The {@link ButtonController} also initializes its own {@link AudioController} to create sound with.
      *
      * @param bounds the {@link Rectangle} object size of the button
      * @param view the {@link ButtonView} to render the object
@@ -63,7 +63,7 @@ public class ButtonController implements Updatable {
                 audioController.playEffect(hoverSound);
             }
         }
-        if (!mouseOver && hoverSoundPlayed) {
+        if (!mouseOver) {
             hoverSoundPlayed = false;
         }
     }

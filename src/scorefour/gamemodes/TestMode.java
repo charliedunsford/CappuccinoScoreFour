@@ -13,18 +13,19 @@ import java.util.Scanner;
 import static scorefour.common.GameState.GAME;
 
 /**
- * {@code TestMode} is a {@link GameMode} which allows the user to control the program through commands.
+ * {@link TestMode} is a {@link GameMode} which allows the user to control the program through commands.
  * <p>
- * The initial state of {@code TestMode} is defined in the {@code setup} method.
+ * The initial state of {@link TestMode} is defined in the {@code setup} method.
  */
 public class TestMode implements GameMode {
 
     private final Scanner scanner;
     private final List<Command> commands;
+
     private ProgramController programController;
 
     /**
-     * Constructs a new {@code TestMode} object which initializes the commands to be used during the programs runtime and
+     * Constructs a new {@link TestMode} object which initializes the commands to be used during the programs runtime and
      * the scanner to accept user input.
      */
     public TestMode() {
@@ -32,6 +33,7 @@ public class TestMode implements GameMode {
         this.commands = initializeCommands();
     }
 
+    // Makes a list of all the commands.
     private List<Command> initializeCommands() {
         List<Command> commandList = new ArrayList<>();
 
@@ -54,7 +56,7 @@ public class TestMode implements GameMode {
     /**
      * Initializes the game in {@link TestMode} and starts the command loop.
      * <p>
-     * This mode sets the {@link GameState} to {@code PLAYING}.
+     * This mode sets the {@link GameState} to {@code GAME}.
      *
      * @param programController a {@link ProgramController} instance to be used in this mode
      */
@@ -65,8 +67,10 @@ public class TestMode implements GameMode {
         startCommands();
     }
 
+    // Starts the command line for the user to interact with.
     private void startCommands() {
         System.out.println("TESTING MODE (type 'help.' for list of commands)");
+
         boolean running = true;
         while (running) {
             System.out.print("> ");
@@ -76,6 +80,7 @@ public class TestMode implements GameMode {
             if (input.equals("quit.")) {
                 running = false;
             }
+
             for (Command command : commands) {
                 if (command.parse(input)) {
                     command.execute(programController);
