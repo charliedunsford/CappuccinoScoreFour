@@ -12,7 +12,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
- * {@code MenuController} manages the menu state interactions, updates, drawing, and
+ * {@link MenuController} manages the menu state interactions, updates, drawing, and
  * user input handling.
  * <p>
  * It coordinates the {@link ButtonController} to render and control the in game interface by changing
@@ -28,7 +28,7 @@ public class MenuController implements Updatable, Interactable {
     private int vsSelectorRow;
 
     /**
-     * Constructs a {@code MenuController} object with the given {@link MenuView} used to display the menu.
+     * Constructs a {@link MenuController} object with the given {@link MenuView} used to display the menu.
      * <p>
      * Initializes the menu buttons and audio.
      *
@@ -39,18 +39,19 @@ public class MenuController implements Updatable, Interactable {
         this.audioController = audioController;
         this.effectAudioController = new AudioController();
         buttons = new ArrayList<>();
+        vsSelectorRow = 5;
         loadButtons();
     }
 
+    // Loads the menu buttons.
     private void loadButtons() {
-        vsSelectorRow = 5;
-
         ButtonAction playGame = () -> {
             audioController.stopSong();
             GameState.state = GameState.GAME;
             audioController.playSong(AudioController.GAME);
         };
         ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
+
         ButtonAction vsSelector = () -> {
             // Set players here
             if (vsSelectorRow < 7) {
@@ -58,9 +59,10 @@ public class MenuController implements Updatable, Interactable {
             } else if (vsSelectorRow == 7) {
                 buttons.getFirst().getButtonView().setRow(vsSelectorRow = 5);
             }
+            audioController.playEffect(AudioController.OPTION_HOVER);
         };
 
-        Rectangle vsSelectorBounds = new Rectangle(300, 500, 0, 0);
+        Rectangle vsSelectorBounds = new Rectangle(185, 550, 0, 0);
         ButtonView vsSelectorView = new ButtonView(vsSelectorBounds, 5);
         buttons.add(new ButtonController(vsSelectorBounds, vsSelectorView, vsSelector, AudioController.OPTION_HOVER, effectAudioController));
 

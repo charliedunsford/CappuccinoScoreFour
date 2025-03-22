@@ -2,27 +2,32 @@ package scorefour.view;
 
 import scorefour.controller.ProgramController;
 
+/**
+ *  The main view of the {@link ProgramController}
+ */
 public class ProgramView {
+
+    private final ProgramController programController;
 
     private Panel panel;
     private Frame frame;
-    private final MenuView menuView;
-    private final GameView gameView;
-    private final ProgramController programController;
 
     /**
-     * {@code PANEL_WIDTH} defines the width of the game panel.
+     * {@code PANEL_WIDTH} defines the width of the {@link Panel}.
      */
     public static final int PANEL_WIDTH = 800;
     /**
-     * {@code PANEL_HEIGHT} defines the height of the game panel.
+     * {@code PANEL_HEIGHT} defines the height of the {@link Panel}.
      */
     public static final int PANEL_HEIGHT = 600;
 
+    /**
+     * Constructs a new {@link ProgramView}
+     *
+     * @param programController the controller of the program
+     */
     public ProgramView(ProgramController programController) {
         this.programController = programController;
-        this.menuView = new MenuView();
-        this.gameView = new GameView();
     }
 
     /**
@@ -46,20 +51,21 @@ public class ProgramView {
         }
     }
 
+    /**
+     *  Schedules the {@link Panel} to call paintComponent which triggers
+     *  the {@link ProgramController} to render.
+     */
     public void repaint() {
         if (panel != null) {
             panel.repaint();
         }
     }
 
-    public MenuView getMenuView() {
-        return menuView;
-    }
-
-    public GameView getGameView() {
-        return gameView;
-    }
-
+    /**
+     * Returns the programs {@link Panel}.
+     *
+     * @return Panel
+     */
     public Panel getPanel() {
         return panel;
     }

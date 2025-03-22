@@ -1,7 +1,6 @@
 package scorefour.controller;
 
 import scorefour.common.BeadColour;
-import scorefour.common.GameState;
 import scorefour.common.Updatable;
 import scorefour.common.Interactable;
 import scorefour.model.Board;
@@ -14,7 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * {@code PlayingController} manages the play state interactions, updates, drawing, and
+ * {@link GameController} manages the play state interactions, updates, drawing, and
  * user input handling.
  * <p>
  * It coordinates the {@link GameView}, {@link OverlayController},
@@ -29,7 +28,7 @@ public class GameController implements Updatable, Interactable {
     private BoardController boardController;
 
     /**
-     * Constructs a {@code PlayingController} object with the given {@link GameView}.
+     * Constructs a {@link GameController} object with the given {@link GameView}.
      * <p>
      * Initializes the overlay and board components for gameplay.
      *
@@ -41,6 +40,7 @@ public class GameController implements Updatable, Interactable {
         initializeClasses();
     }
 
+    // Initializes all classes required for the game.
     private void initializeClasses() {
         Board board = new Board();
         Player whitePlayer = new Player(BeadColour.WHITE);
@@ -51,7 +51,7 @@ public class GameController implements Updatable, Interactable {
         boardController = new BoardController(board, new BoardView(), gameManager);
 
         Rectangle overlayBounds = new Rectangle(0, 485, 800, 160);
-        overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController, gameManager);
+        overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController, gameManager, audioController);
     }
 
     /**
@@ -61,10 +61,7 @@ public class GameController implements Updatable, Interactable {
     public void update() {
         overlayController.update();
         boardController.update();
-
-        if (gameManager.getScore()[0] > 9 || gameManager.getScore()[1] > 9) {
-            gameManager.resetScore();
-        }
+        gameManager.update();
     }
 
     /**
@@ -76,10 +73,11 @@ public class GameController implements Updatable, Interactable {
         view.draw(g);
         overlayController.draw(g);
         boardController.draw(g);
+        gameManager.draw(g);
     }
 
     /**
-     * Communicates with {@link OverlayController} when a mouse button has been pressed.
+     * Communicates with {@link OverlayController} and {@link BoardController} when a mouse button has been pressed.
      *
      * @param e the {@link MouseEvent} containing the mouse press status
      */
@@ -113,12 +111,15 @@ public class GameController implements Updatable, Interactable {
     }
 
     /**
-     * @return the {@link AudioController} used by the playing state
+     * @return the {@link AudioController} used by the game.
      */
     public AudioController getAudioController() {
         return audioController;
     }
 
+    /**
+     * @return the {@link BoardController} used by the game.
+     */
     public BoardController getBoardController() {
         return boardController;
     }

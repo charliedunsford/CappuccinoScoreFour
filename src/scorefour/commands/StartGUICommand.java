@@ -31,7 +31,7 @@ public class StartGUICommand implements Command {
     @Override
     public void execute(ProgramController programController) {
         System.out.println("Starting gui.");
-        programController.getGameView().startGUI();
+        programController.getProgramView().startGUI();
         programController.getPlaying().getAudioController().playSong(AudioController.GAME);
     }
 

@@ -9,20 +9,21 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * {@code PlayingView} initializes fixed in-game visuals and provides a way to {@code draw} these graphics to a {@link Panel}.
+ * {@link GameView} initializes fixed in-game visuals and provides a way to {@code draw} these graphics to a {@link Panel}.
  */
 public class GameView implements Viewable {
 
     private BufferedImage background;
 
     /**
-     * Constructs a {@code PlayingView} which initializes a background image.
+     * Constructs a {@link GameView} which initializes a background image.
      */
     public GameView() {
-        initializeBackgroundImage();
+        loadBackgroundImage();
     }
 
-    private void initializeBackgroundImage() {
+    // Loads the in game background image.
+    private void loadBackgroundImage() {
         try {
             background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/playingBackground.png")));
         } catch (IOException e) {

@@ -6,9 +6,9 @@ import scorefour.common.GameMode;
 import scorefour.controller.AudioController;
 
 /**
- * {@code NormalMode} is a visually interactive {@link GameMode}.
+ * {@link NormalMode} is a visually interactive {@link GameMode}.
  * <p>
- * The initial state of {@code NormalMode} is defined in the {@code setup} method.
+ * The initial state of {@link NormalMode} is defined in the {@code setup} method.
  */
 public class NormalMode implements GameMode {
 
@@ -20,7 +20,7 @@ public class NormalMode implements GameMode {
     @Override
     public void setup(ProgramController programController) {
         GameState.state = GameState.MENU;
-        programController.getGameView().startGUI();
+        programController.getProgramView().startGUI();
         programController.getMenu().getAudioController().playSong(AudioController.MENU);
     }
 }

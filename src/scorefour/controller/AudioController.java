@@ -4,6 +4,9 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * A {@link AudioController} handles all audio of the game.
+ */
 public class AudioController {
 
     /**
@@ -31,11 +34,12 @@ public class AudioController {
      */
     public static final int FALLING = 2;
 
-    private Clip[] songs, effects;
-    private int currentSong, currentEffect;
+    private Clip[] songs;
+    private String[] effectNames;
+    private int currentSong;
 
     /**
-     * A constructor which creates a new {@code AudioController} object.
+     * A constructor which creates a new {@link AudioController} object.
      * <p>
      * Initializes all songs and effects, which are stored as clips.
      */
@@ -44,6 +48,7 @@ public class AudioController {
         loadEffects();
     }
 
+    // Loads all the music for the game.
     private void loadSongs() {
         String[] names = {"menu", "playing_nolead"}; // remove no lead for more lead :D
         songs = new Clip[names.length];
@@ -52,14 +57,12 @@ public class AudioController {
         }
     }
 
+    // Loads a list of effect names for the game.
     private void loadEffects() {
-        String[] names = {"menu_hover", "peg_hover", "falling"};
-        effects = new Clip[names.length];
-        for (int i = 0; i < effects.length; i++) {
-            effects[i] = getClip(names[i]);
-        }
+        effectNames = new String[]{"menu_hover", "peg_hover", "falling"};
     }
 
+    // Gets all audio as a clip which can be manipulated easier.
     private Clip getClip(String name) {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/res/audio/" + name + ".wav")));
@@ -99,17 +102,17 @@ public class AudioController {
      * @param effect integer or static value of effect
      */
     public void playEffect(int effect) {
-        currentEffect = effect;
-        effects[effect].setMicrosecondPosition(0);
-        effects[effect].start();
-    }
+        try {
+            Clip clip = getClip(effectNames[effect]);
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                }
+            });
 
-    /**
-     * Stops the currently active {@link AudioController}'s effect.
-     */
-    public void stopEffect() { // might not need but keeping here just in case
-        if (effects[currentEffect].isActive()) {
-            effects[currentEffect].stop();
+            clip.start();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load effect clip.");
         }
     }
 }

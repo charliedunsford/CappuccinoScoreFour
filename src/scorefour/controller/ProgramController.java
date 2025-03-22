@@ -2,26 +2,28 @@ package scorefour.controller;
 
 import scorefour.common.GameState;
 import scorefour.view.*;
+import scorefour.view.Panel;
 
 import java.awt.*;
 
 /**
- * The {@code Game} object manages the core logic of the game. This includes game transitions,
- * rendering, and updating game components.
+ * The {@link ProgramController} manages the core logic of the program. This includes game transitions,
+ * rendering, and updating components.
  * <p>
- * This class initializes various controllers, handles the game loop, and manages the GUI.
+ * This class initializes various controllers and handles the game loop.
  */
 public class ProgramController implements Runnable {
-    private int debugFPS;
-    private volatile boolean running;
 
     private final AudioController audioController;
     private final ProgramView view;
     private MenuController menuController;
     private GameController gameController;
 
+    private volatile boolean running;
+    private int debugFPS;
+
     /**
-     * Constructs the {@code Game} object, initializes the required classes, and starts the game.
+     * Constructs the {@link ProgramController} object, initializes the required classes, and starts the game.
      */
     public ProgramController() {
         this.audioController = new AudioController();
@@ -30,11 +32,13 @@ public class ProgramController implements Runnable {
         startGame();
     }
 
+    // Initializes required controllers.
     private void initializeControllers() {
-        menuController = new MenuController(view.getMenuView(), audioController);
-        gameController = new GameController(view.getGameView(), audioController);
+        menuController = new MenuController(new MenuView(), audioController);
+        gameController = new GameController(new GameView(), audioController);
     }
 
+    // Starts the game thread.
     private void startGame() {
         running = true;
         Thread gameThread = new Thread(this);
@@ -51,6 +55,7 @@ public class ProgramController implements Runnable {
         running = false;
     }
 
+    // Calls for the current game state to be updated.
     private void update() {
         switch (GameState.state) {
             case MENU -> menuController.update();
@@ -60,7 +65,7 @@ public class ProgramController implements Runnable {
     }
 
     /**
-     * Renders the graphics drawn from the current {@link GameState} to a {@code Panel}'s graphics component.
+     * Renders the graphics drawn from the current {@link GameState} to a {@link Panel}'s graphics component.
      *
      * @param g the {@link Graphics} context used for rendering
      */
@@ -77,29 +82,41 @@ public class ProgramController implements Runnable {
      */
     @Override
     public void run() {
-        int FPS = 60;
-        final double drawInterval = 1000000000.0 / FPS;
+        final double targetFPS = 60.0;
+        final double drawInterval = 1000000000.0 / targetFPS;
+
+        long lastTime = System.nanoTime();
+        long timer = System.nanoTime();
+        double unprocessedTime = 0;
         int frames = 0;
-        long previousTime = System.nanoTime();
-        long time = System.currentTimeMillis();
-        double delta = 0;
 
         while (running) {
             long currentTime = System.nanoTime();
-            delta += (currentTime - previousTime) / drawInterval;
-            previousTime = currentTime;
+            unprocessedTime += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
 
-            if (delta >= 1) {
+            while (unprocessedTime >= 1) {
                 update();
-                view.repaint();
-                delta--;
-                frames++;
+                unprocessedTime--;
+            }
 
-                if (System.currentTimeMillis() - time >= 1000) {
-                    debugFPS = frames;
-                    frames = 0;
-                    time += 1000;
+            view.repaint();
+            frames++;
+
+            long elapsed = System.nanoTime() - currentTime;
+            long sleepTime = (long) (drawInterval - elapsed) / 1000000;
+            if (sleepTime > 0) {
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
+            }
+
+            if (System.nanoTime() - timer >= drawInterval) {
+                debugFPS = frames;
+                frames = 0;
+                timer += (long) 1000000000.0;
             }
         }
     }
@@ -114,7 +131,7 @@ public class ProgramController implements Runnable {
     }
 
     /**
-     * The {@link GameController} handles all interactions, visuals, and logic of the games {@code PLAY} state.
+     * The {@link GameController} handles all interactions, visuals, and logic of the games {@code GAME} state.
      *
      * @return {@link GameController} of the {@link ProgramController} object
      */
@@ -131,7 +148,12 @@ public class ProgramController implements Runnable {
         return debugFPS;
     }
 
-    public ProgramView getGameView() {
+    /**
+     * Returns the {@link ProgramController} view.
+     *
+     * @return {@link ProgramView}
+     */
+    public ProgramView getProgramView() {
         return view;
     }
 }

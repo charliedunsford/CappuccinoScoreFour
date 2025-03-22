@@ -9,20 +9,21 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * {@code ButtonView} initializes the visual aspects of a button and provides a way to {@code draw} these graphics to a {@code Panel} and
+ * {@link ButtonView} initializes the visual aspects of a button and provides a way to {@code draw} these graphics to a {@link Panel} and
  * edit the state of a graphic using the {@code setIndex} method.
  */
 public class ButtonView implements Viewable {
 
     private final Rectangle bounds;
     private BufferedImage[] images;
+
     private int row;
     private int index;
 
     /**
-     * Constructs a {@code ButtonView} object which stores a pair of images which are defined by the {@code row} integer passed to it.
+     * Constructs a {@link ButtonView} object which stores a pair of images which are defined by the {@code row} integer passed to it.
      * <p>
-     * {@code ButtonView} is made up of two images, hover and not hover, which can be switched between using the {@code setIndex} method.
+     * {@link ButtonView} is made up of two images, hover and not hover, which can be switched between using the {@code setIndex} method.
      * <p>
      * The {@code bounds} dictate the size which the images will take up when drawn on the {@link Panel}.
      *
@@ -35,6 +36,7 @@ public class ButtonView implements Viewable {
         loadButtonImages();
     }
 
+    // Loads the images for the button to be displayed.
     private void loadButtonImages() {
         images = new BufferedImage[2];
         try {
@@ -47,6 +49,7 @@ public class ButtonView implements Viewable {
         }
     }
 
+    // Sets the file for the image.
     private String getButtonImage() {
         return switch (row) {
             case 0 -> "playButton";
@@ -57,12 +60,13 @@ public class ButtonView implements Viewable {
             case 5 -> "pvp";
             case 6 -> "pvc";
             case 7 -> "cvc";
+            case 8 -> "menuButton";
             default -> throw new IllegalStateException("Button row " + row + " does not exist.");
         };
     }
 
     /**
-     * {@code ButtonView} is made up of two images, hover and not hover, which can be switched between using the setIndex method.
+     * {@link ButtonView} is made up of two images, hover and not hover, which can be switched between using the setIndex method.
      *
      * @param index switch between not hover (0) and hover (1)
      */
@@ -70,6 +74,11 @@ public class ButtonView implements Viewable {
         this.index = index;
     }
 
+    /**
+     * Changes the button file images to be displayed by the {@link ButtonView}.
+     *
+     * @param row the type of button to be displayed
+     */
     public void setRow(int row) {
         this.row = row;
         loadButtonImages();

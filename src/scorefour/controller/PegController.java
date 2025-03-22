@@ -13,20 +13,30 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * Not fully documented yet!
+ * A {@link PegController} handles all events related to the {@link Peg}.
  */
 public class PegController implements Updatable, Interactable {
 
     private final Peg peg;
-    private final int row;
-    private final int col;
     private final ButtonController button;
-    private final List<BeadController> beadControllers;
     private final AudioController audioController;
     private final GameManager gameManager;
+    private final List<BeadController> beadControllers;
+
+    private final int row;
+    private final int col;
 
     private static final int BEAD_SPACING = 37;
 
+    /**
+     * Constructs a new {@link PegController}.
+     *
+     * @param peg {@link Peg} to control.
+     * @param row integer representation of the {@link Peg} row.
+     * @param col integer representation of the {@link Peg} column.
+     * @param audioController {@link AudioController} for sound effects.
+     * @param gameManager {@link GameManager} for game logic events.
+     */
     public PegController(Peg peg, int row, int col, AudioController audioController, GameManager gameManager) {
         this.peg = peg;
         this.row = row;
@@ -37,6 +47,7 @@ public class PegController implements Updatable, Interactable {
         this.beadControllers = new ArrayList<>();
     }
 
+    // Creates peg buttons on the board for the GUI.
     private ButtonController createPegButton() {
         ButtonAction addBead = () -> {
             BeadColour currentColor = gameManager.getCurrentPlayer().getColour();
@@ -97,6 +108,11 @@ public class PegController implements Updatable, Interactable {
         button.update();
     }
 
+    /**
+     * Draws the pegs {@link ButtonView}'s and {@link Bead}'s on the {@link Peg}.
+     *
+     * @param g the {@link Graphics} context used for rendering
+     */
     public void draw(Graphics g) {
         button.draw(g);
         for (BeadController controller : beadControllers) {

@@ -16,9 +16,6 @@ public class Panel extends JPanel {
 
     private final ProgramController programController;
 
-    WidgetsView widgetsView = new WidgetsView();
-    WinLoseIndicator winLoseIndicator = new WinLoseIndicator();
-
     /**
      * Constructs a new {@code Panel}.
      * <p>
@@ -29,7 +26,6 @@ public class Panel extends JPanel {
     public Panel(ProgramController programController) {
         this.programController = programController;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.add(widgetsView);
 
         MouseInputs mouseInputs = new MouseInputs(this);
         addMouseListener(mouseInputs);
