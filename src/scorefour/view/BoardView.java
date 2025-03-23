@@ -76,15 +76,15 @@ public class BoardView implements Viewable {
 
 
         // prints the char array to something that looks like the board
-        for (int row = 0; row < 4; row++) {
+        for (int row = 0; row < 4; row++ ){
             for (int col = 0; col < 4; col++) {
                 System.out.print("\n");
                 for (int i = row; i < 4; i++) {
                     System.out.print("  ");
                 }
 
-                for (int height = 0; height < 4; height++) {
-                    System.out.print(chars[row][col][height] + "  ");
+                for (int height = 3; height >= 0; height--) {
+                    System.out.print(chars[row][3-height][3-col] + "  ");
 
                 }
             }
