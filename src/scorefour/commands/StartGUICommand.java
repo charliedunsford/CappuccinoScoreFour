@@ -32,7 +32,7 @@ public class StartGUICommand implements Command {
     public void execute(ProgramController programController) {
         System.out.println("Starting gui.");
         programController.getProgramView().startGUI();
-        programController.getPlaying().getAudioController().playSong(AudioController.GAME);
+        programController.getGameController().getAudioController().playSong(AudioController.GAME);
     }
 
     /**

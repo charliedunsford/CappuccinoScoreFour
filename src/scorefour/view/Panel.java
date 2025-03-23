@@ -47,7 +47,7 @@ public class Panel extends JPanel {
     /**
      * @return {@link ProgramController} object passed to the {@link Panel}
      */
-    public ProgramController getGame() {
+    public ProgramController getProgramController() {
         return programController;
     }
 }

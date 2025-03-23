@@ -74,7 +74,7 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute(ProgramController programController) {
-        programController.getPlaying().getBoardController().addBead(position, colour);
+        programController.getGameController().getBoardController().addBead(position, colour);
     }
 
     /**

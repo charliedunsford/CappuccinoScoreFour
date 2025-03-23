@@ -55,9 +55,9 @@ public class MenuController implements Updatable, Interactable {
         ButtonAction vsSelector = () -> {
             // Set players here
             if (vsSelectorRow < 7) {
-                buttons.getFirst().getButtonView().setRow(++vsSelectorRow);
+               buttons.getFirst().getButtonView().setRow(++vsSelectorRow);
             } else if (vsSelectorRow == 7) {
-                buttons.getFirst().getButtonView().setRow(vsSelectorRow = 5);
+               buttons.getFirst().getButtonView().setRow(vsSelectorRow = 5);
             }
             audioController.playEffect(AudioController.OPTION_HOVER);
         };

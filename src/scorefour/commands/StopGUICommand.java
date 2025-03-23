@@ -31,7 +31,7 @@ public class StopGUICommand implements Command {
     public void execute(ProgramController programController) {
         System.out.println("Stopping gui.");
         programController.getProgramView().stopGUI();
-        programController.getPlaying().getAudioController().stopSong();
+        programController.getGameController().getAudioController().stopSong();
     }
 
     /**

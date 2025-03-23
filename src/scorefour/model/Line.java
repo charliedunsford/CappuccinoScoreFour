@@ -39,11 +39,6 @@ public class Line {
         this.identifier = parsePosition(row, col);
     }
 
-    /**
-     * Checks if the {@link Line} contains 4 {@link Bead}'s of the same colour in a row.
-     *
-     * @return true if the line contains 4 beads of the same colour; otherwise false.
-     */
     public boolean isWin() // returns true if the line has 4 beads of the same colour
     {
         for(int i = 0; i <= 3; i++) {

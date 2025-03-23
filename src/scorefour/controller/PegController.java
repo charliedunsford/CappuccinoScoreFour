@@ -84,7 +84,7 @@ public class PegController implements Updatable, Interactable {
 
         // Removes all controllers for blank peg positions.
         while (beadControllers.size() > currentBeadCount) {
-            beadControllers.removeLast();
+           beadControllers.removeLast();
         }
 
         // Adds controller for each new bead on a peg.

@@ -21,6 +21,6 @@ public class NormalMode implements GameMode {
     public void setup(ProgramController programController) {
         GameState.state = GameState.MENU;
         programController.getProgramView().startGUI();
-        programController.getMenu().getAudioController().playSong(AudioController.MENU);
+        programController.getMenuController().getAudioController().playSong(AudioController.MENU);
     }
 }

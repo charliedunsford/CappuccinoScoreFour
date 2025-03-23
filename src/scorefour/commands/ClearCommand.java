@@ -29,7 +29,7 @@ public class ClearCommand implements Command {
     @Override
     public void execute(ProgramController programController) {
         System.out.println("Clearing board.");
-        programController.getPlaying().getBoardController().clearBoard();
+        programController.getGameController().getBoardController().clearBoard();
     }
 
     /**
