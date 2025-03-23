@@ -29,8 +29,7 @@ public class DrawBoardCommand implements Command {
     @Override
     public void execute(ProgramController programController) {
         System.out.println("Drawing board.");
-        // Implement functionality here
-        // game.getPlayingGame().getBoard().drawBoard();
+        programController.getGameController().getBoardController().getBoardView().printASCIIBoard();
     }
 
     /**

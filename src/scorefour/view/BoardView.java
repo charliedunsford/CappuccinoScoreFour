@@ -15,21 +15,24 @@ import java.util.Objects;
  */
 public class BoardView implements Viewable {
 
-    private BufferedImage board;
+    private final Board board;
+
+    private BufferedImage boardImage;
 
     /**
      * Constructs a {@link BoardView} which initializes the board image.
      *<p>
      * To render this view, call the {@code draw} method with a {@link Graphics} object.
      */
-    public BoardView() {
+    public BoardView(Board board) {
+        this.board = board;
         loadBoardImage();
     }
 
     // Loads the image of the board to be displayed in game.
     private void loadBoardImage() {
         try {
-            board =  ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/board.png")));
+            boardImage =  ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/board.png")));
         } catch (IOException e) {
             throw new RuntimeException("Failed to load board image.");
         }
@@ -42,11 +45,11 @@ public class BoardView implements Viewable {
      */
     @Override
     public void draw(Graphics g) {
-        g.drawImage(board, 0, 0, null);
+        g.drawImage(boardImage, 0, 0, null);
     }
 
     // An ASCII representation of the board.
-    public static void printASCIIBoard(Board board) { // Prints the ASCII view of the board to System.out
+    public void printASCIIBoard() { // Prints the ASCII view of the board to System.out
 
         // converts board to 3-dimensional char array where | = no bead, X = black and O = white
 
@@ -86,8 +89,6 @@ public class BoardView implements Viewable {
                 }
             }
         }
-
-
-
+        System.out.print("\n");
     }
 }

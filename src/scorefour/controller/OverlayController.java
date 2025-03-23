@@ -163,7 +163,7 @@ public class OverlayController implements Updatable, Interactable {
      * @param e the {@link MouseEvent} containing the current mouse position
      * @return {@code true} if the cursor is inside the overlay; {@code false} otherwise
      */
-    public boolean isIn(MouseEvent e) {
+    public boolean inBounds(MouseEvent e) {
         return bounds.getBounds().contains(e.getX(), e.getY());
     }
 

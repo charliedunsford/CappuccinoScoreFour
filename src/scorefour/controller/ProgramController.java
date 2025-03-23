@@ -126,7 +126,7 @@ public class ProgramController implements Runnable {
      *
      * @return {@link MenuController} of the {@link ProgramController} object
      */
-    public MenuController getMenu() {
+    public MenuController getMenuController() {
         return menuController;
     }
 
@@ -135,7 +135,7 @@ public class ProgramController implements Runnable {
      *
      * @return {@link GameController} of the {@link ProgramController} object
      */
-    public GameController getPlaying() {
+    public GameController getGameController() {
         return gameController;
     }
 

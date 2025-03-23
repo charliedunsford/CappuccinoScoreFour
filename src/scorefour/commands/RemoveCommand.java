@@ -62,7 +62,7 @@ public class RemoveCommand implements Command {
      */
     @Override
     public void execute(ProgramController programController) {
-        programController.getPlaying().getBoardController().removeBead(position);
+        programController.getGameController().getBoardController().removeBead(position);
     }
 
     /**

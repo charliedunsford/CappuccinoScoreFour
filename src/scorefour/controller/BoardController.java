@@ -189,4 +189,11 @@ public class BoardController implements Interactable, Updatable {
     public GameManager getGameManager() {
         return gameManager;
     }
+
+    /**
+     * @return {@link BoardView}
+     */
+    public BoardView getBoardView() {
+        return view;
+    }
 }

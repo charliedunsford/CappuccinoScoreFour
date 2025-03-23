@@ -48,7 +48,7 @@ public class GameController implements Updatable, Interactable {
 
         gameManager = new GameManager(board, whitePlayer, blackPlayer);
 
-        boardController = new BoardController(board, new BoardView(), gameManager);
+        boardController = new BoardController(board, new BoardView(board), gameManager);
 
         Rectangle overlayBounds = new Rectangle(0, 485, 800, 160);
         overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController, gameManager, audioController);
@@ -105,7 +105,7 @@ public class GameController implements Updatable, Interactable {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        overlayController.setMouseOver(overlayController.isIn(e));
+        overlayController.setMouseOver(overlayController.inBounds(e));
         overlayController.mouseMoved(e);
         boardController.mouseMoved(e);
     }

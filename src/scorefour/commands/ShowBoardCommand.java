@@ -30,7 +30,7 @@ public class ShowBoardCommand implements Command {
     @Override
     public void execute(ProgramController programController) {
         System.out.println("Showing board.");
-        System.out.println(programController.getPlaying().getBoardController().getBoard().toString());
+        System.out.println(programController.getGameController().getBoardController().getBoard().toString());
         // game.getPlayingGame().getBoard().getPegs();
     }
 
