@@ -20,7 +20,6 @@ public class ProgramController implements Runnable {
     private GameController gameController;
 
     private volatile boolean running;
-    private int debugFPS;
 
     /**
      * Constructs the {@link ProgramController} object, initializes the required classes, and starts the game.
@@ -86,9 +85,7 @@ public class ProgramController implements Runnable {
         final double drawInterval = 1000000000.0 / targetFPS;
 
         long lastTime = System.nanoTime();
-        long timer = System.nanoTime();
         double unprocessedTime = 0;
-        int frames = 0;
 
         while (running) {
             long currentTime = System.nanoTime();
@@ -101,7 +98,6 @@ public class ProgramController implements Runnable {
             }
 
             view.repaint();
-            frames++;
 
             long elapsed = System.nanoTime() - currentTime;
             long sleepTime = (long) (drawInterval - elapsed) / 1000000;
@@ -111,12 +107,6 @@ public class ProgramController implements Runnable {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-            }
-
-            if (System.nanoTime() - timer >= drawInterval) {
-                debugFPS = frames;
-                frames = 0;
-                timer += (long) 1000000000.0;
             }
         }
     }
@@ -137,15 +127,6 @@ public class ProgramController implements Runnable {
      */
     public GameController getGameController() {
         return gameController;
-    }
-
-    /**
-     * {@code debugFPS} returns the current FPS.
-     *
-     * @return a integer value of the current frames per second
-     */
-    public int getDebugFPS() {
-        return debugFPS;
     }
 
     /**
