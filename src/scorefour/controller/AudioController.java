@@ -1,7 +1,9 @@
 package scorefour.controller;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 /**
@@ -20,9 +22,9 @@ public class AudioController {
     public static final int GAME = 1;
 
     /**
-     * The index of the menu hover effect.
+     * The index of the button hover effect.
      */
-    public static final int OPTION_HOVER = 0;
+    public static final int BUTTON_HOVER = 0;
 
     /**
      * The index of the peg hover effect.
@@ -32,7 +34,7 @@ public class AudioController {
     /**
      * The index of the bead falling effect.
      */
-    public static final int FALLING = 2;
+    public static final int BEAD_FALLING = 2;
 
     private Clip[] songs;
     private String[] effectNames;
@@ -50,7 +52,7 @@ public class AudioController {
 
     // Loads all the music for the game.
     private void loadSongs() {
-        String[] names = {"menu", "playing_nolead"}; // remove no lead for more lead :D
+        String[] names = {"menu", "game"};
         songs = new Clip[names.length];
         for (int i = 0; i < songs.length; i++) {
             songs[i] = getClip(names[i]);
@@ -59,13 +61,14 @@ public class AudioController {
 
     // Loads a list of effect names for the game.
     private void loadEffects() {
-        effectNames = new String[]{"menu_hover", "peg_hover", "falling"};
+        effectNames = new String[]{"button_hover", "peg_hover", "bead_falling"};
     }
 
     // Gets all audio as a clip which can be manipulated easier.
     private Clip getClip(String name) {
         try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/res/audio/" + name + ".wav")));
+            InputStream audioPath = Objects.requireNonNull(getClass().getResourceAsStream("/res/audio/" + name + ".wav"));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioPath));
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             return clip;

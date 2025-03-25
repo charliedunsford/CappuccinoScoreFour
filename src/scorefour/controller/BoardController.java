@@ -34,11 +34,10 @@ public class BoardController implements Interactable, Updatable {
      * <p>
      * This classes also initializes the {@link PegController}'s associated with the {@link Board}.
      *
-     * @param board the {@link Board} where the game takes place
      * @param view the {@link BoardView} which renders the board
      */
-    public BoardController(Board board, BoardView view, GameManager gameManager) {
-        this.board = board;
+    public BoardController(BoardView view, GameManager gameManager) {
+        this.board = gameManager.getBoard();
         this.view = view;
         this.audioController = new AudioController();
         this.gameManager = gameManager;

@@ -57,6 +57,10 @@ public class Board {
         return pegs;
     }
 
+    public Peg getPeg(int[] position) {
+        return pegs[position[0]][position[1]];
+    }
+
     /**
      * Clears all the {@link Peg}'s on the {@link Board}.
      */

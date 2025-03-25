@@ -2,6 +2,7 @@ package scorefour.controller;
 
 import scorefour.common.Updatable;
 import scorefour.model.Board;
+import scorefour.player.ComputerPlayer;
 import scorefour.player.Player;
 import scorefour.view.WinView;
 
@@ -14,17 +15,20 @@ import java.awt.*;
 public class GameManager implements Updatable {
 
     private final Board board;
-    private final Player whitePlayer;
-    private final Player blackPlayer;
+    private Player whitePlayer;
+    private Player blackPlayer;
     private final WinManager winManager;
 
     private Timer winTimer;
+    private Timer computerThinkTimer;
     private WinView winView;
     private Player currentPlayer;
 
     private int whiteScore, blackScore;
     private boolean gameWon;
     private boolean gameOver = false;
+
+    private final AudioController audioController;
 
     /**
      * Constructs a {@link GameManager} to handle the game logic.
@@ -33,11 +37,12 @@ public class GameManager implements Updatable {
      * @param whitePlayer a {@link Player}
      * @param blackPlayer a {@link Player}
      */
-    public GameManager(Board board, Player whitePlayer, Player blackPlayer) {
+    public GameManager(Board board, Player whitePlayer, Player blackPlayer, AudioController audioController) {
         this.board = board;
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.currentPlayer = whitePlayer;
+        this.audioController = audioController;
         winManager = new WinManager(board);
         winTimer = null;
     }
@@ -74,22 +79,42 @@ public class GameManager implements Updatable {
             winView = new WinView(currentPlayer);
         }
 
-        winTimer = createTimer();
+        winTimer = new Timer(2000, e -> {
+            resetGame();
+            if (currentPlayer instanceof ComputerPlayer) {
+                computerTurn();
+            }
+        });
+        winTimer.setRepeats(false);
         winTimer.start();
 
         gameOver = true;
     }
 
-    // Creates a timer to delay the win view during game win.
-    private Timer createTimer() {
-        Timer timer = new Timer(1500, e -> resetGame());
-        timer.setRepeats(false);
-        return timer;
-    }
-
     // Switches the current player to the not current player.
     private void switchTurn() {
         currentPlayer = (currentPlayer == blackPlayer) ? whitePlayer : blackPlayer;
+        if (currentPlayer instanceof ComputerPlayer) {
+            computerTurn();
+        }
+    }
+
+    public void computerTurn() {
+        if (computerThinkTimer != null) {
+            computerThinkTimer.stop();
+        }
+
+        computerThinkTimer = new Timer(1000, e -> {
+            int[] move;
+            do {
+                move = ((ComputerPlayer) currentPlayer).getMove();
+            } while (board.getPeg(move).isFull());
+            board.addBead(move, currentPlayer.getColour());
+            audioController.playEffect(AudioController.BEAD_FALLING);
+            handleMove();
+        });
+        computerThinkTimer.setRepeats(false);
+        computerThinkTimer.start();
     }
 
     /**
@@ -133,6 +158,17 @@ public class GameManager implements Updatable {
 
         board.clearBoard();
         currentPlayer = whitePlayer;
+
+        if (currentPlayer instanceof ComputerPlayer) {
+            computerTurn();
+        }
+    }
+
+    public void updatePlayers(Player whitePlayer, Player blackPlayer) {
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
+
+        this.currentPlayer = whitePlayer;
     }
 
     /**
@@ -155,5 +191,9 @@ public class GameManager implements Updatable {
         if (gameWon && winView != null) {
             winView.draw(g);
         }
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

@@ -1,7 +1,8 @@
 package scorefour.player;
 
 import scorefour.common.BeadColour;
-import scorefour.model.Peg;
+
+import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
@@ -9,7 +10,12 @@ public class ComputerPlayer extends Player {
         super(colour);
     }
 
-    public Peg[][] getMove() {
-        return null;
+    public int[] getMove() {
+        Random rand = new Random();
+
+        int row = rand.nextInt(4);
+        int col = rand.nextInt(4);
+
+        return new int[]{row, col};
     }
 }

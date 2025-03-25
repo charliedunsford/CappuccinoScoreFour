@@ -3,6 +3,7 @@ package scorefour.controller;
 import scorefour.common.*;
 import scorefour.model.Bead;
 import scorefour.model.Peg;
+import scorefour.player.ComputerPlayer;
 import scorefour.view.BeadView;
 import scorefour.view.ButtonView;
 import scorefour.view.Panel;
@@ -52,9 +53,11 @@ public class PegController implements Updatable, Interactable {
         ButtonAction addBead = () -> {
             BeadColour currentColor = gameManager.getCurrentPlayer().getColour();
             if (!peg.isFull()) {
-                peg.addBead(currentColor);
-                audioController.playEffect(AudioController.FALLING);
-                gameManager.handleMove();
+                if (!(gameManager.getCurrentPlayer() instanceof ComputerPlayer)) {
+                    peg.addBead(currentColor);
+                    audioController.playEffect(AudioController.BEAD_FALLING);
+                    gameManager.handleMove();
+                }
             }
         };
 
