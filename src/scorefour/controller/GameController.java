@@ -3,7 +3,10 @@ package scorefour.controller;
 import scorefour.common.BeadColour;
 import scorefour.common.Updatable;
 import scorefour.common.Interactable;
+import scorefour.common.VersusMode;
 import scorefour.model.Board;
+import scorefour.player.ComputerPlayer;
+import scorefour.player.HumanPlayer;
 import scorefour.player.Player;
 import scorefour.view.BoardView;
 import scorefour.view.OverlayView;
@@ -27,6 +30,8 @@ public class GameController implements Updatable, Interactable {
     private OverlayController overlayController;
     private BoardController boardController;
 
+    Player whitePlayer, blackPlayer;
+
     /**
      * Constructs a {@link GameController} object with the given {@link GameView}.
      * <p>
@@ -43,15 +48,34 @@ public class GameController implements Updatable, Interactable {
     // Initializes all classes required for the game.
     private void initializeClasses() {
         Board board = new Board();
-        Player whitePlayer = new Player(BeadColour.WHITE);
-        Player blackPlayer = new Player(BeadColour.BLACK);
 
-        gameManager = new GameManager(board, whitePlayer, blackPlayer);
+        Player whitePlayer, blackPlayer;
 
-        boardController = new BoardController(board, new BoardView(board), gameManager);
+        whitePlayer = new HumanPlayer(BeadColour.WHITE);
+        blackPlayer = new HumanPlayer(BeadColour.BLACK);
+
+        gameManager = new GameManager(board, whitePlayer, blackPlayer, audioController);
+
+        boardController = new BoardController(new BoardView(board), gameManager);
 
         Rectangle overlayBounds = new Rectangle(0, 485, 800, 160);
-        overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController, gameManager, audioController);
+        overlayController = new OverlayController(overlayBounds, new OverlayView(45), boardController, gameManager);
+    }
+
+    public void updatePlayers() {
+
+        if (VersusMode.mode == VersusMode.PVC) {
+            whitePlayer = new HumanPlayer(BeadColour.WHITE);
+            blackPlayer = new ComputerPlayer(BeadColour.BLACK);
+        } else if (VersusMode.mode == VersusMode.CVC) {
+            whitePlayer = new ComputerPlayer(BeadColour.WHITE);
+            blackPlayer = new ComputerPlayer(BeadColour.BLACK);
+        } else {
+            whitePlayer = new HumanPlayer(BeadColour.WHITE);
+            blackPlayer = new HumanPlayer(BeadColour.BLACK);
+        }
+
+        gameManager.updatePlayers(whitePlayer, blackPlayer);
     }
 
     /**
@@ -122,5 +146,9 @@ public class GameController implements Updatable, Interactable {
      */
     public BoardController getBoardController() {
         return boardController;
+    }
+
+    public GameManager getGameManager() {
+        return gameManager;
     }
 }

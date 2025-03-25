@@ -60,7 +60,7 @@ public class ButtonView implements Viewable {
             case 5 -> "pvp";
             case 6 -> "pvc";
             case 7 -> "cvc";
-            case 8 -> "menuButton";
+            case 8 -> "resetButton";
             default -> throw new IllegalStateException("Button row " + row + " does not exist.");
         };
     }

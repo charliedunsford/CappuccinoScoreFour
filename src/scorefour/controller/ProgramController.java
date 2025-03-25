@@ -33,7 +33,7 @@ public class ProgramController implements Runnable {
 
     // Initializes required controllers.
     private void initializeControllers() {
-        menuController = new MenuController(new MenuView(), audioController);
+        menuController = new MenuController(new MenuView(), audioController, this);
         gameController = new GameController(new GameView(), audioController);
     }
 

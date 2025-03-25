@@ -19,7 +19,6 @@ public class OverlayController implements Updatable, Interactable {
 
     private final BoardController boardController;
     private final AudioController effectAudioController;
-    private final AudioController audioController;
     private final GameManager gameManager;
 
     private final ArrayList<ButtonController> buttons;
@@ -36,13 +35,12 @@ public class OverlayController implements Updatable, Interactable {
      * @param bounds the size of the interactable overlay
      * @param view the overlay view to be displayed
      */
-    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController, GameManager gameManager, AudioController audioController) {
+    public OverlayController(Rectangle bounds, OverlayView view, BoardController boardController, GameManager gameManager) {
         this.bounds = bounds;
         this.view = view;
         this.boardController = boardController;
         this.effectAudioController = new AudioController();
         this.gameManager = gameManager;
-        this.audioController = audioController;
         buttons = new ArrayList<>();
         loadButtons();
     }
@@ -51,24 +49,22 @@ public class OverlayController implements Updatable, Interactable {
     private void loadButtons() {
         ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
         ButtonAction clearBoard = () -> { boardController.clearBoard(); };
-        ButtonAction menu = () -> {
-            GameState.state = GameState.MENU;
-            audioController.playSong(AudioController.MENU);
+        ButtonAction reset = () -> {
             gameManager.resetGame();
             gameManager.resetScore();
         };
 
         Rectangle clearButtonBounds = new Rectangle(5, 600, 0, 0);
         ButtonView clearButtonView = new ButtonView(clearButtonBounds, 2);
-        buttons.add(new ButtonController(clearButtonBounds, clearButtonView, clearBoard, AudioController.OPTION_HOVER, effectAudioController));
+        buttons.add(new ButtonController(clearButtonBounds, clearButtonView, clearBoard, AudioController.BUTTON_HOVER, effectAudioController));
 
         Rectangle quitButtonBounds = new Rectangle(670, 600, 0, 0);
         ButtonView quitButtonView = new ButtonView(quitButtonBounds, 3);
-        buttons.add(new ButtonController(quitButtonBounds, quitButtonView, quitGame, AudioController.OPTION_HOVER, effectAudioController));
+        buttons.add(new ButtonController(quitButtonBounds, quitButtonView, quitGame, AudioController.BUTTON_HOVER, effectAudioController));
 
-        Rectangle menuButtonBounds = new Rectangle(330, 600, 0, 0);
-        ButtonView menuButtonView = new ButtonView(menuButtonBounds, 8);
-        buttons.add(new ButtonController(menuButtonBounds, menuButtonView, menu, AudioController.OPTION_HOVER, effectAudioController));
+        Rectangle resetButtonBounds = new Rectangle(330, 600, 0, 0);
+        ButtonView resetButtonView = new ButtonView(resetButtonBounds, 8);
+        buttons.add(new ButtonController(resetButtonBounds, resetButtonView, reset, AudioController.BUTTON_HOVER, effectAudioController));
     }
 
     /**
