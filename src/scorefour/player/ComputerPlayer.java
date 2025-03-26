@@ -3,15 +3,15 @@ package scorefour.player;
 import scorefour.common.BeadColour;
 import scorefour.model.Board;
 import scorefour.model.Peg;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
-    Board board = new Board();
-    private Peg[][] pegs;
+    private final Peg[][] pegs;
 
-    public ComputerPlayer(BeadColour colour)
+    public ComputerPlayer(BeadColour colour, Board board)
     {
         super(colour);
         pegs = board.getPegs();
@@ -26,9 +26,9 @@ public class ComputerPlayer extends Player {
 
     }
 
-    public ArrayList getValidMoves ()
+    public ArrayList<int[]> getValidMoves ()
     {
-        ArrayList<int[]> ValidMoves = new ArrayList<int[]>();
+        ArrayList<int[]> ValidMoves = new ArrayList<>();
         for (int r=0; r<4; r++)
         {
             for(int c=0; c<4; c++)

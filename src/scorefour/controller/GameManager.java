@@ -79,7 +79,7 @@ public class GameManager implements Updatable {
             winView = new WinView(currentPlayer);
         }
 
-        winTimer = new Timer(2000, e -> {
+        winTimer = new Timer(2000, e -> { // ==========================================================
             resetGame();
             if (currentPlayer instanceof ComputerPlayer) {
                 computerTurn();
@@ -104,11 +104,12 @@ public class GameManager implements Updatable {
             computerThinkTimer.stop();
         }
 
-        computerThinkTimer = new Timer(1000, e -> {
+        computerThinkTimer = new Timer(1000, e -> { // ================================================
             int[] move;
-            do {
-                move = ((ComputerPlayer) currentPlayer).getMove();
-            } while (board.getPeg(move).isFull());
+            move = ((ComputerPlayer) currentPlayer).getMove();
+            if (board.getPeg(move).isFull()) {
+                throw new RuntimeException("Computer Player tried to make an invalid move");
+            }
             board.addBead(move, currentPlayer.getColour());
             audioController.playEffect(AudioController.BEAD_FALLING);
             handleMove();
