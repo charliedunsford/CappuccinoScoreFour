@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"scorefour.commands"},{"l":"scorefour.common"},{"l":"scorefour.controller"},{"l":"scorefour.gamemodes"},{"l":"scorefour.model"},{"l":"scorefour.player"},{"l":"scorefour.view"}];updateSearchResults();

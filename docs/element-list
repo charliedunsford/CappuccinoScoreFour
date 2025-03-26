@@ -1,0 +1,8 @@
+unnamed package
+scorefour.commands
+scorefour.common
+scorefour.controller
+scorefour.gamemodes
+scorefour.model
+scorefour.player
+scorefour.view
