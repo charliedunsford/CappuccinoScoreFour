@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A {@code Frame} creates a new {@link JFrame} where the contents of a {@link Panel} can be displayed.
+ * A {@link Frame} creates a new {@link JFrame} where the contents of a {@link Panel} can be displayed.
  */
 public class Frame {
+
     private final JFrame frame;
     private final BufferedImage[] icons;
 
     /**
-     * Constructs a new {@code Frame} object and displays the given {@link Panel} on it.
+     * Constructs a new {@link Frame} object and displays the given {@link Panel} on it.
      * <p>
      * This constructor also initializes the frames icons and title.
      *
@@ -38,6 +39,7 @@ public class Frame {
         frame.setVisible(true);
     }
 
+    // Initializes the icons to be displayed by the frame.
     private void initializeIcons() {
         try {
             icons[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/icons/128x128.png")));

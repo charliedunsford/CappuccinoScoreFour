@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * {@code BoardController} manages a boards interactions, updates, and drawing.
+ * {@link BoardController} manages a boards interactions, updates, and drawing.
  * <p>
  * It coordinates with a {@link Board}, {@link BoardView}, and various other classes to render and
  * control the game board.
@@ -24,6 +24,7 @@ public class BoardController implements Interactable, Updatable {
     private final Board board;
     private final BoardView view;
     private final AudioController audioController;
+    private final GameManager gameManager;
 
     private PegController[][] pegControllers;
 
@@ -33,16 +34,17 @@ public class BoardController implements Interactable, Updatable {
      * <p>
      * This classes also initializes the {@link PegController}'s associated with the {@link Board}.
      *
-     * @param board the {@link Board} where the game takes place
      * @param view the {@link BoardView} which renders the board
      */
-    public BoardController(Board board, BoardView view) {
-        this.board = board;
+    public BoardController(BoardView view, GameManager gameManager) {
+        this.board = gameManager.getBoard();
         this.view = view;
         this.audioController = new AudioController();
+        this.gameManager = gameManager;
         initializePegControllers();
     }
 
+    // Gets the pegs from the board and makes controllers for each of them.
     private void initializePegControllers() {
         Peg[][] pegs = board.getPegs();
         int rows = pegs.length;
@@ -52,7 +54,7 @@ public class BoardController implements Interactable, Updatable {
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                pegControllers[row][col] = new PegController(pegs[row][col], row, col, audioController);
+                pegControllers[row][col] = new PegController(pegs[row][col], row, col, audioController, gameManager);
             }
         }
     }
@@ -67,6 +69,7 @@ public class BoardController implements Interactable, Updatable {
         int[] parsedPosition = parsePosition(position);
         board.addBead(parsedPosition, colour);
         System.out.println("added " + colour + " bead to " + position);
+        gameManager.handleMove();
     }
 
     /**
@@ -84,14 +87,7 @@ public class BoardController implements Interactable, Updatable {
      * Clears all the {@link Peg}'s on the {@link Board}.
      */
     public void clearBoard() {
-        Peg[][] pegs = board.getPegs();
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (pegs[row][col] != null) {
-                    pegs[row][col].clearBeads();
-                }
-            }
-        }
+        board.clearBoard();
     }
 
     /**
@@ -125,7 +121,7 @@ public class BoardController implements Interactable, Updatable {
     }
 
     /**
-     * Calls for updates.
+     * Calls for updates of each peg controller.
      */
     @Override
     public void update() {
@@ -179,7 +175,24 @@ public class BoardController implements Interactable, Updatable {
         }
     }
 
+    /**
+     * @return {@link Board}
+     */
     public Board getBoard() {
         return board;
+    }
+
+    /**
+     * @return {@link GameManager}
+     */
+    public GameManager getGameManager() {
+        return gameManager;
+    }
+
+    /**
+     * @return {@link BoardView}
+     */
+    public BoardView getBoardView() {
+        return view;
     }
 }

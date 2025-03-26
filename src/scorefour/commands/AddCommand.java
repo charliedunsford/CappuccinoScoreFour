@@ -1,7 +1,7 @@
 package scorefour.commands;
 
 import scorefour.common.BeadColour;
-import scorefour.controller.GameController;
+import scorefour.controller.ProgramController;
 import scorefour.common.Command;
 
 /**
@@ -70,11 +70,11 @@ public class AddCommand implements Command {
      * Executes the {@link Command} by sending the commands information to the
      * game instance.
      *
-     * @param gameController the {@link GameController} instance to interact with
+     * @param programController the {@link ProgramController} instance to interact with
      */
     @Override
-    public void execute(GameController gameController) {
-        gameController.getPlaying().getBoardController().addBead(position, colour);
+    public void execute(ProgramController programController) {
+        programController.getGameController().getBoardController().addBead(position, colour);
     }
 
     /**

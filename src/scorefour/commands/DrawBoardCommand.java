@@ -1,6 +1,6 @@
 package scorefour.commands;
 
-import scorefour.controller.GameController;
+import scorefour.controller.ProgramController;
 import scorefour.common.Command;
 
 /**
@@ -24,13 +24,12 @@ public class DrawBoardCommand implements Command {
      * Executes the {@link Command} by sending the commands information to the
      * game instance.
      *
-     * @param gameController the {@link GameController} instance to interact with
+     * @param programController the {@link ProgramController} instance to interact with
      */
     @Override
-    public void execute(GameController gameController) {
+    public void execute(ProgramController programController) {
         System.out.println("Drawing board.");
-        // Implement functionality here
-        // game.getPlayingGame().getBoard().drawBoard();
+        programController.getGameController().getBoardController().getBoardView().printASCIIBoard();
     }
 
     /**

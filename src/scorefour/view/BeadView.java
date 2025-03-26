@@ -10,18 +10,28 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * {@link BeadView} draws the bead image.
+ */
 public class BeadView implements Viewable {
 
     private final BeadColour colour;
     private final Bead bead;
+
     private BufferedImage beadSprite;
 
+    /**
+     * Constructs a new {@link BeadView} object to be drawn.
+     *
+     * @param bead a reference model to represent the beads location
+     */
     public BeadView(Bead bead) {
         this.bead = bead;
         colour = bead.getColour();
         loadBeadImage();
     }
 
+    // Loads the image of the bead, takes into consideration the beads colour.
     private void loadBeadImage() {
         try {
             if (colour == BeadColour.BLACK) {

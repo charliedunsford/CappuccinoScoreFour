@@ -1,9 +1,6 @@
 package scorefour.controller;
 
-import scorefour.common.ButtonAction;
-import scorefour.common.Updatable;
-import scorefour.common.GameState;
-import scorefour.common.Interactable;
+import scorefour.common.*;
 import scorefour.view.ButtonView;
 import scorefour.view.MenuView;
 
@@ -12,7 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
- * {@code MenuController} manages the menu state interactions, updates, drawing, and
+ * {@link MenuController} manages the menu state interactions, updates, drawing, and
  * user input handling.
  * <p>
  * It coordinates the {@link ButtonController} to render and control the in game interface by changing
@@ -24,37 +21,66 @@ public class MenuController implements Updatable, Interactable {
     private final MenuView view;
     private final AudioController audioController;
     private final AudioController effectAudioController;
+    private final ProgramController programController;
+
+    private int vsSelectorRow;
 
     /**
-     * Constructs a {@code MenuController} object with the given {@link MenuView} used to display the menu.
+     * Constructs a {@link MenuController} object with the given {@link MenuView} used to display the menu.
      * <p>
      * Initializes the menu buttons and audio.
      *
      * @param view the playing view used to render the menu to the panel.
      */
-    public MenuController(MenuView view, AudioController audioController) {
+    public MenuController(MenuView view, AudioController audioController, ProgramController programController) {
         this.view = view;
         this.audioController = audioController;
+        this.programController = programController;
         this.effectAudioController = new AudioController();
         buttons = new ArrayList<>();
+        vsSelectorRow = 5;
         loadButtons();
     }
 
+    // Loads the menu buttons.
     private void loadButtons() {
         ButtonAction playGame = () -> {
+            programController.getGameController().getGameManager().resetGame();
             audioController.stopSong();
-            GameState.state = GameState.PLAYING;
+            GameState.state = GameState.GAME;
             audioController.playSong(AudioController.GAME);
         };
         ButtonAction quitGame = () -> { GameState.state = GameState.QUIT; };
 
+        ButtonAction vsSelector = () -> {
+
+            if (vsSelectorRow == 5) {
+                buttons.getFirst().getButtonView().setRow(++vsSelectorRow);
+                VersusMode.mode = VersusMode.PVC;
+            } else if (vsSelectorRow == 6) {
+                buttons.getFirst().getButtonView().setRow(++vsSelectorRow);
+                VersusMode.mode = VersusMode.CVC;
+            } else if (vsSelectorRow == 7) {
+                buttons.getFirst().getButtonView().setRow(vsSelectorRow = 5);
+                VersusMode.mode = VersusMode.PVP;
+            }
+
+            programController.getGameController().updatePlayers();
+
+            audioController.playEffect(AudioController.BUTTON_HOVER);
+        };
+
+        Rectangle vsSelectorBounds = new Rectangle(185, 550, 0, 0);
+        ButtonView vsSelectorView = new ButtonView(vsSelectorBounds, 5);
+        buttons.add(new ButtonController(vsSelectorBounds, vsSelectorView, vsSelector, AudioController.BUTTON_HOVER, effectAudioController));
+
         Rectangle playBounds = new Rectangle(160, 336, 0, 0);
         ButtonView playButtonView = new ButtonView(playBounds, 0);
-        buttons.add(new ButtonController(playBounds, playButtonView, playGame, AudioController.OPTION_HOVER, effectAudioController));
+        buttons.add(new ButtonController(playBounds, playButtonView, playGame, AudioController.BUTTON_HOVER, effectAudioController));
 
         Rectangle quitBounds = new Rectangle(448, 336, 0, 0);
         ButtonView quitButtonView = new ButtonView(quitBounds, 1);
-        buttons.add(new ButtonController(quitBounds, quitButtonView, quitGame, AudioController.OPTION_HOVER, effectAudioController));
+        buttons.add(new ButtonController(quitBounds, quitButtonView, quitGame, AudioController.BUTTON_HOVER, effectAudioController));
     }
 
     /**

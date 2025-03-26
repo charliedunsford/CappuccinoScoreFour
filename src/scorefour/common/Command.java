@@ -1,6 +1,6 @@
 package scorefour.common;
 
-import scorefour.controller.GameController;
+import scorefour.controller.ProgramController;
 
 /**
  * A {@code Command} is a way the user can interact with the program using string in
@@ -21,9 +21,9 @@ public interface Command {
      * Executes the {@link Command} by sending the commands information to the
      * game instance.
      *
-     * @param gameController the {@link GameController} instance to interact with
+     * @param programController the {@link ProgramController} instance to interact with
      */
-    void execute(GameController gameController);
+    void execute(ProgramController programController);
 
     /**
      * A string which describes the use of the {@link Command}. This method will be

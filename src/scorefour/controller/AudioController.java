@@ -1,9 +1,14 @@
 package scorefour.controller;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * A {@link AudioController} handles all audio of the game.
+ */
 public class AudioController {
 
     /**
@@ -17,9 +22,9 @@ public class AudioController {
     public static final int GAME = 1;
 
     /**
-     * The index of the menu hover effect.
+     * The index of the button hover effect.
      */
-    public static final int OPTION_HOVER = 0;
+    public static final int BUTTON_HOVER = 0;
 
     /**
      * The index of the peg hover effect.
@@ -29,13 +34,14 @@ public class AudioController {
     /**
      * The index of the bead falling effect.
      */
-    public static final int FALLING = 2;
+    public static final int BEAD_FALLING = 2;
 
-    private Clip[] songs, effects;
-    private int currentSong, currentEffect;
+    private Clip[] songs;
+    private String[] effectNames;
+    private int currentSong;
 
     /**
-     * A constructor which creates a new {@code AudioController} object.
+     * A constructor which creates a new {@link AudioController} object.
      * <p>
      * Initializes all songs and effects, which are stored as clips.
      */
@@ -44,25 +50,25 @@ public class AudioController {
         loadEffects();
     }
 
+    // Loads all the music for the game.
     private void loadSongs() {
-        String[] names = {"menu", "playing_nolead"}; // remove no lead for more lead :D
+        String[] names = {"menu", "game"};
         songs = new Clip[names.length];
         for (int i = 0; i < songs.length; i++) {
             songs[i] = getClip(names[i]);
         }
     }
 
+    // Loads a list of effect names for the game.
     private void loadEffects() {
-        String[] names = {"menu_hover", "peg_hover", "falling"};
-        effects = new Clip[names.length];
-        for (int i = 0; i < effects.length; i++) {
-            effects[i] = getClip(names[i]);
-        }
+        effectNames = new String[]{"button_hover", "peg_hover", "bead_falling"};
     }
 
+    // Gets all audio as a clip which can be manipulated easier.
     private Clip getClip(String name) {
         try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/res/audio/" + name + ".wav")));
+            InputStream audioPath = Objects.requireNonNull(getClass().getResourceAsStream("/res/audio/" + name + ".wav"));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioPath));
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             return clip;
@@ -99,17 +105,17 @@ public class AudioController {
      * @param effect integer or static value of effect
      */
     public void playEffect(int effect) {
-        currentEffect = effect;
-        effects[effect].setMicrosecondPosition(0);
-        effects[effect].start();
-    }
+        try {
+            Clip clip = getClip(effectNames[effect]);
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                }
+            });
 
-    /**
-     * Stops the currently active {@link AudioController}'s effect.
-     */
-    public void stopEffect() { // might not need but keeping here just in case
-        if (effects[currentEffect].isActive()) {
-            effects[currentEffect].stop();
+            clip.start();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load effect clip.");
         }
     }
 }

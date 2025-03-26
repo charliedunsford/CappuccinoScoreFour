@@ -3,6 +3,7 @@ package scorefour.controller;
 import scorefour.common.*;
 import scorefour.model.Bead;
 import scorefour.model.Peg;
+import scorefour.player.ComputerPlayer;
 import scorefour.view.BeadView;
 import scorefour.view.ButtonView;
 import scorefour.view.Panel;
@@ -13,32 +14,51 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * Not fully documented yet!
+ * A {@link PegController} handles all events related to the {@link Peg}.
  */
 public class PegController implements Updatable, Interactable {
 
     private final Peg peg;
+    private final ButtonController button;
+    private final AudioController audioController;
+    private final GameManager gameManager;
+    private final List<BeadController> beadControllers;
+
     private final int row;
     private final int col;
-    private final ButtonController button;
-    private final List<BeadController> beadControllers;
-    private final AudioController audioController;
 
     private static final int BEAD_SPACING = 37;
 
-    public PegController(Peg peg, int row, int col, AudioController audioController) {
+    /**
+     * Constructs a new {@link PegController}.
+     *
+     * @param peg {@link Peg} to control.
+     * @param row integer representation of the {@link Peg} row.
+     * @param col integer representation of the {@link Peg} column.
+     * @param audioController {@link AudioController} for sound effects.
+     * @param gameManager {@link GameManager} for game logic events.
+     */
+    public PegController(Peg peg, int row, int col, AudioController audioController, GameManager gameManager) {
         this.peg = peg;
         this.row = row;
         this.col = col;
         this.audioController = audioController;
+        this.gameManager = gameManager;
         this.button = createPegButton();
         this.beadControllers = new ArrayList<>();
     }
 
+    // Creates peg buttons on the board for the GUI.
     private ButtonController createPegButton() {
         ButtonAction addBead = () -> {
-            peg.addBead(BeadColour.BLACK);
-            audioController.playEffect(AudioController.FALLING);
+            BeadColour currentColor = gameManager.getCurrentPlayer().getColour();
+            if (!peg.isFull()) {
+                if (!(gameManager.getCurrentPlayer() instanceof ComputerPlayer)) {
+                    peg.addBead(currentColor);
+                    audioController.playEffect(AudioController.BEAD_FALLING);
+                    gameManager.handleMove();
+                }
+            }
         };
 
         int x = 218 + col * 162 - (row * 53);
@@ -67,7 +87,7 @@ public class PegController implements Updatable, Interactable {
 
         // Removes all controllers for blank peg positions.
         while (beadControllers.size() > currentBeadCount) {
-            beadControllers.removeLast();
+           beadControllers.removeLast();
         }
 
         // Adds controller for each new bead on a peg.
@@ -91,6 +111,11 @@ public class PegController implements Updatable, Interactable {
         button.update();
     }
 
+    /**
+     * Draws the pegs {@link ButtonView}'s and {@link Bead}'s on the {@link Peg}.
+     *
+     * @param g the {@link Graphics} context used for rendering
+     */
     public void draw(Graphics g) {
         button.draw(g);
         for (BeadController controller : beadControllers) {

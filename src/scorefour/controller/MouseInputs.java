@@ -8,14 +8,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * {@code MouseInputs} listens to various user inputs which occur in a designated {@link Panel}.
+ * {@link MouseInputs} listens to various user inputs which occur in a designated {@link Panel}.
  */
 public class MouseInputs implements MouseListener, MouseMotionListener {
 
     private final Panel panel;
 
     /**
-     * Constructs a new {@code MouseInput} and assigns it to listen to a {@link Panel}.
+     * Constructs a new {@link MouseInputs} and assigns it to listen to a {@link Panel}.
      *
      * @param panel to listen to user inputs
      */
@@ -23,6 +23,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         this.panel = panel;
     }
 
+    // Not used.
     @Override
     public void mouseClicked(MouseEvent e) {}
 
@@ -34,8 +35,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent e) {
         switch (GameState.state) {
-            case MENU -> panel.getGame().getMenu().mousePressed(e);
-            case PLAYING -> panel.getGame().getPlaying().mousePressed(e);
+            case MENU -> panel.getProgramController().getMenuController().mousePressed(e);
+            case GAME -> panel.getProgramController().getGameController().mousePressed(e);
         }
     }
 
@@ -47,21 +48,24 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (GameState.state) {
-            case MENU -> panel.getGame().getMenu().mouseReleased(e);
-            case PLAYING -> panel.getGame().getPlaying().mouseReleased(e);
+            case MENU -> panel.getProgramController().getMenuController().mouseReleased(e);
+            case GAME -> panel.getProgramController().getGameController().mouseReleased(e);
         }
     }
 
+    // Not used.
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
+    // Not used.
     @Override
     public void mouseExited(MouseEvent e) {
 
     }
 
+    // Not used.
     @Override
     public void mouseDragged(MouseEvent e) {
     }
@@ -74,8 +78,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         switch (GameState.state) {
-            case MENU -> panel.getGame().getMenu().mouseMoved(e);
-            case PLAYING -> panel.getGame().getPlaying().mouseMoved(e);
+            case MENU -> panel.getProgramController().getMenuController().mouseMoved(e);
+            case GAME -> panel.getProgramController().getGameController().mouseMoved(e);
         }
     }
 }

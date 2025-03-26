@@ -1,66 +1,43 @@
 package scorefour.view;
 
-import scorefour.controller.GameController;
+import scorefour.common.Viewable;
 
-public class GameView {
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
-    private Panel panel;
-    private Frame frame;
-    private final MenuView menuView;
-    private final PlayingView playingView;
-    private final GameController gameController;
+/**
+ * {@link GameView} initializes fixed in-game visuals and provides a way to {@code draw} these graphics to a {@link Panel}.
+ */
+public class GameView implements Viewable {
+
+    private BufferedImage background;
 
     /**
-     * {@code PANEL_WIDTH} defines the width of the game panel.
+     * Constructs a {@link GameView} which initializes a background image.
      */
-    public static final int PANEL_WIDTH = 800;
-    /**
-     * {@code PANEL_HEIGHT} defines the height of the game panel.
-     */
-    public static final int PANEL_HEIGHT = 600;
-
-    public GameView(GameController gameController) {
-        this.gameController = gameController;
-        this.menuView = new MenuView();
-        this.playingView = new PlayingView();
+    public GameView() {
+        loadBackgroundImage();
     }
 
-    /**
-     * Starts the graphical user interface if a {@link Panel} object does not already exist.
-     */
-    public void startGUI() {
-        if (panel != null) {
-            return;
-        }
-        panel = new Panel(gameController);
-        frame = new Frame(panel);
-    }
-
-    /**
-     * Stops the graphical user interface.
-     */
-    public void stopGUI() {
-        panel = null;
-        if (frame != null) {
-            frame.dispose();
+    // Loads the in game background image.
+    private void loadBackgroundImage() {
+        try {
+            background = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/playingBackground.png")));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load in game images.");
         }
     }
 
-    public void repaint() {
-        if (panel != null) {
-            panel.repaint();
-        }
-    }
-
-    public MenuView getMenuView() {
-        return menuView;
-    }
-
-    public PlayingView getPlayingView() {
-        return playingView;
-    }
-
-    public Panel getPanel() {
-        return panel;
+    /**
+     * This method is accessed by a {@link Panel} class to be drawn on a {@link Frame}
+     *
+     * @param g the {@link Graphics} context used for rendering
+     */
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(background, 0, 0, null);
     }
 }

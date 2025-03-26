@@ -1,26 +1,26 @@
 package scorefour.gamemodes;
 
 import scorefour.common.GameState;
-import scorefour.controller.GameController;
+import scorefour.controller.ProgramController;
 import scorefour.common.GameMode;
 import scorefour.controller.AudioController;
 
 /**
- * {@code NormalMode} is a visually interactive {@link GameMode}.
+ * {@link NormalMode} is a visually interactive {@link GameMode}.
  * <p>
- * The initial state of {@code NormalMode} is defined in the {@code setup} method.
+ * The initial state of {@link NormalMode} is defined in the {@code setup} method.
  */
 public class NormalMode implements GameMode {
 
     /**
      * Initializes the game in {@link NormalMode} and starts the GUI and menu music.
      *
-     * @param gameController a {@link GameController} instance to be used in this mode
+     * @param programController a {@link ProgramController} instance to be used in this mode
      */
     @Override
-    public void setup(GameController gameController) {
+    public void setup(ProgramController programController) {
         GameState.state = GameState.MENU;
-        gameController.getGameView().startGUI();
-        gameController.getMenu().getAudioController().playSong(AudioController.MENU);
+        programController.getProgramView().startGUI();
+        programController.getMenuController().getAudioController().playSong(AudioController.MENU);
     }
 }
