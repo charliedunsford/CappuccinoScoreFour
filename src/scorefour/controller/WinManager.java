@@ -31,7 +31,7 @@ public class WinManager {
 
         for (Line line : lines) {
             if (line.isWin()) {
-                System.out.println("Win on " + line);
+                // System.out.println("Win on " + line); temp removal as its messing with computer wins
                 return true;
             }
         }
