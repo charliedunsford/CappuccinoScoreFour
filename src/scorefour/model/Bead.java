@@ -23,6 +23,17 @@ public class Bead {
     }
 
     /**
+     * Constructs a copy of a {@link Bead}
+     *
+     * @param bead the bead to be copied
+     */
+    public Bead(Bead bead) {
+        this.colour = bead.getColour();
+        this.x = bead.getX();
+        this.y = bead.getY();
+    }
+
+    /**
      * Returns the {@link BeadColour} of the {@link Bead}.
      *
      * @return {@link BeadColour}

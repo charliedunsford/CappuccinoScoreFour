@@ -11,7 +11,7 @@ import java.util.Random;
 public class ComputerPlayer extends Player {
 
     private final Peg[][] pegs;
-    Board board;
+    private final Board board;
 
     public ComputerPlayer(BeadColour colour, Board board)
     {
@@ -23,59 +23,67 @@ public class ComputerPlayer extends Player {
     public int[] getMove() {
         Random rand = new Random();
 
-        ArrayList<int[]> ValidMoves = getValidMoves();
-        ArrayList<int[]> WinningMoves = getWinningMoves();
-        int randomPlace = rand.nextInt(ValidMoves.size());
-        //return ValidMoves.get(randomPlace);
+        ArrayList<int[]> validMoves = getValidMoves();
+        ArrayList<int[]> winningMoves = getWinningMoves();
 
-        if(!WinningMoves.isEmpty())
+        if(!winningMoves.isEmpty())
         {
-            return WinningMoves.getFirst();
+            return winningMoves.getFirst();
         }
-        else
-        {
-            return ValidMoves.get(randomPlace);
-        }
+
+        return validMoves.get(rand.nextInt(validMoves.size()));
     }
 
     public ArrayList<int[]> getValidMoves ()
     {
-        ArrayList<int[]> ValidMoves = new ArrayList<>();
+        ArrayList<int[]> validMoves = new ArrayList<>();
         for (int r=0; r<4; r++)
         {
             for(int c=0; c<4; c++)
             {
-                int[] position = new int[]{r,c};
                 if(pegs[r][c].getBeads()[3]==null)
                 {
-                    ValidMoves.add(position);
+                    validMoves.add(new int[]{r,c});
                 }
 
             }
         }
-        return  ValidMoves;
+        return validMoves;
     }
 
-    public ArrayList<int[]> getWinningMoves ()
-    {
-        ArrayList<int[]> ValidMoves = getValidMoves();
+    public ArrayList<int[]> getWinningMoves () {
+        ArrayList<int[]> validMoves = getValidMoves();
+        ArrayList<int[]> winningMoves = new ArrayList<>();
 
-        ArrayList<int[]> WinningMoves = new ArrayList<>();
+        for (int[] move : validMoves) {
+            Board simulatedBoard = new Board(board);
+            simulatedBoard.addBead(move, super.getColour());
 
-        for (int[] validMove : ValidMoves) {
-            board.addBead(validMove, super.getColour());
-
-            if (new WinManager(board).isGameWon()) {
-                WinningMoves.add(validMove);
-                board.removeBead(validMove);
-            } else {
-                board.removeBead(validMove);
+            if (new WinManager(simulatedBoard).isGameWon()) {
+                winningMoves.add(move);
             }
-
         }
-        return WinningMoves;
+
+        if (winningMoves.isEmpty()) {
+            for (int firstMove = 0; firstMove < validMoves.size(); firstMove++) {
+                for (int secondMove = firstMove + 1; secondMove < validMoves.size(); secondMove++) {
+                    Board simulatedBoard = new Board(board);
+                    simulatedBoard.addBead(validMoves.get(firstMove), getColour());
+                    simulatedBoard.addBead(validMoves.get(secondMove), getColour());
+
+                    if (new WinManager(simulatedBoard).isGameWon()) {
+                        winningMoves.add(validMoves.get(firstMove));
+                        break;
+                    }
+                }
+
+                if (!winningMoves.isEmpty()) {
+                    break;
+                }
+            }
+        }
+
+        return winningMoves;
+
     }
-
-
-
 }
