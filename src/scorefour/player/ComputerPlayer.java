@@ -57,7 +57,17 @@ public class ComputerPlayer extends Player {
 
         for (int[] move : validMoves) {
             Board simulatedBoard = new Board(board);
-            simulatedBoard.addBead(move, super.getColour());
+            BeadColour opponentColour = (getColour() == BeadColour.WHITE) ? BeadColour.BLACK : BeadColour.WHITE;
+            simulatedBoard.addBead(move, opponentColour);
+
+            if (new WinManager(simulatedBoard).isGameWon()) {
+                winningMoves.add(move);
+            }
+        }
+
+        for (int[] move : validMoves) {
+            Board simulatedBoard = new Board(board);
+            simulatedBoard.addBead(move, getColour());
 
             if (new WinManager(simulatedBoard).isGameWon()) {
                 winningMoves.add(move);
@@ -74,6 +84,28 @@ public class ComputerPlayer extends Player {
                     if (new WinManager(simulatedBoard).isGameWon()) {
                         winningMoves.add(validMoves.get(firstMove));
                         break;
+                    }
+                }
+
+                if (!winningMoves.isEmpty()) {
+                    break;
+                }
+            }
+        }
+
+        if (winningMoves.isEmpty()) {
+            for (int firstMove = 0; firstMove < validMoves.size(); firstMove++) {
+                for (int secondMove = firstMove + 1; secondMove < validMoves.size(); secondMove++) {
+                    for (int thirdMove = secondMove + 1; thirdMove < validMoves.size(); thirdMove++) {
+                        Board simulatedBoard = new Board(board);
+                        simulatedBoard.addBead(validMoves.get(firstMove), getColour());
+                        simulatedBoard.addBead(validMoves.get(secondMove), getColour());
+                        simulatedBoard.addBead(validMoves.get(thirdMove), getColour());
+
+                        if (new WinManager(simulatedBoard).isGameWon()) {
+                            winningMoves.add(validMoves.get(firstMove));
+                            break;
+                        }
                     }
                 }
 
