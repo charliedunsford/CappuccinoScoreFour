@@ -22,6 +22,23 @@ public class Peg {
     }
 
     /**
+     * Constructs a copy of a {@link Peg} into a new peg.
+     *
+     * @param peg to be copied
+     */
+    public Peg(Peg peg) {
+        this.beads = new Bead[4];
+
+        for (int i = 0; i < 3; i++) {
+            if (peg.beads[i] != null) {
+                this.beads[i] = new Bead(peg.beads[i]);
+            }
+        }
+
+        this.y = peg.y;
+    }
+
+    /**
      * Adds a {@link Bead} to the {@link Peg}.
      *
      * @param colour the colour of the bead

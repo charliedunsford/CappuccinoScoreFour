@@ -19,6 +19,21 @@ public class Board {
         initializePegs();
     }
 
+    /**
+     * Constructs a new copy of a {@link Board}
+     *
+     * @param board the board to be copied
+     */
+    public Board(Board board) {
+        this.pegs = new Peg[4][4];
+
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                this.pegs[row][col] = new Peg(board.pegs[row][col]);
+            }
+        }
+    }
+
     // Populates each peg in a set location on the board. (LOCATION CRUCIAL FOR GUI!)
     private void initializePegs() {
         for (int row = 0; row < 4; row++) {

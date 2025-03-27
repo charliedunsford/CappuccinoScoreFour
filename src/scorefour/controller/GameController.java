@@ -29,6 +29,7 @@ public class GameController implements Updatable, Interactable {
     private GameManager gameManager;
     private OverlayController overlayController;
     private BoardController boardController;
+    private Board board;
 
     Player whitePlayer, blackPlayer;
 
@@ -47,7 +48,7 @@ public class GameController implements Updatable, Interactable {
 
     // Initializes all classes required for the game.
     private void initializeClasses() {
-        Board board = new Board();
+        board = new Board();
 
         Player whitePlayer, blackPlayer;
 
@@ -66,10 +67,10 @@ public class GameController implements Updatable, Interactable {
 
         if (VersusMode.mode == VersusMode.PVC) {
             whitePlayer = new HumanPlayer(BeadColour.WHITE);
-            blackPlayer = new ComputerPlayer(BeadColour.BLACK);
+            blackPlayer = new ComputerPlayer(BeadColour.BLACK, board);
         } else if (VersusMode.mode == VersusMode.CVC) {
-            whitePlayer = new ComputerPlayer(BeadColour.WHITE);
-            blackPlayer = new ComputerPlayer(BeadColour.BLACK);
+            whitePlayer = new ComputerPlayer(BeadColour.WHITE, board);
+            blackPlayer = new ComputerPlayer(BeadColour.BLACK, board);
         } else {
             whitePlayer = new HumanPlayer(BeadColour.WHITE);
             blackPlayer = new HumanPlayer(BeadColour.BLACK);
