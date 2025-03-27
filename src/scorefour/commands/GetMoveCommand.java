@@ -1,7 +1,10 @@
 package scorefour.commands;
 
+import scorefour.common.BeadColour;
 import scorefour.controller.ProgramController;
 import scorefour.common.Command;
+import scorefour.model.Board;
+import scorefour.player.ComputerPlayer;
 
 /**
  * The {@code GetMoveCommand} allows the user to have the program propose a move.
@@ -55,8 +58,15 @@ public class GetMoveCommand implements Command {
     @Override
     public void execute(ProgramController programController) {
         System.out.println("Getting " + colour + " move.");
-        // Implement functionality here
-        // game.getPlayingGame().getBoard().getMoveBead(colour); or computerPlayer.getMove()
+        Board board = programController.getGameController().getBoardController().getBoard();
+        if (colour.equalsIgnoreCase("white")) {
+            ComputerPlayer computer = new ComputerPlayer(BeadColour.WHITE, board);
+            board.addBead(computer.getMove(), BeadColour.WHITE);
+        } else if (colour.equalsIgnoreCase("black")) {
+            ComputerPlayer computer = new ComputerPlayer(BeadColour.BLACK, board);
+            board.addBead(computer.getMove(), BeadColour.BLACK);
+        }
+
     }
 
     /**
