@@ -48,7 +48,10 @@ public class BoardView implements Viewable {
         g.drawImage(boardImage, 0, 0, null);
     }
 
-    // An ASCII representation of the board.
+
+    /**
+     * Draws an ASCII representation of the current {@link Board} state.
+     */
     public void printASCIIBoard() { // Prints the ASCII view of the board to System.out
 
         // converts board to 3-dimensional char array where | = no bead, X = black and O = white

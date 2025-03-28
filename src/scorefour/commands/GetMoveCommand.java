@@ -59,12 +59,13 @@ public class GetMoveCommand implements Command {
     public void execute(ProgramController programController) {
         System.out.println("Getting " + colour + " move.");
         Board board = programController.getGameController().getBoardController().getBoard();
-        if (colour.equalsIgnoreCase("white")) {
-            ComputerPlayer computer = new ComputerPlayer(BeadColour.WHITE, board);
-            board.addBead(computer.getMove(), BeadColour.WHITE);
-        } else if (colour.equalsIgnoreCase("black")) {
-            ComputerPlayer computer = new ComputerPlayer(BeadColour.BLACK, board);
-            board.addBead(computer.getMove(), BeadColour.BLACK);
+        if (colour.equalsIgnoreCase("white") || colour.equalsIgnoreCase("black")) {
+            BeadColour bead = (colour.equalsIgnoreCase("white")) ? BeadColour.WHITE : BeadColour.BLACK;
+            ComputerPlayer computer = new ComputerPlayer(bead, board);
+            board.addBead(computer.getMove(), bead);
+            System.out.println("Added " + colour + " bead to board.");
+        } else {
+            System.out.println("No positions available.");
         }
     }
 

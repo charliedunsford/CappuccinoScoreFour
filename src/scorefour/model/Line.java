@@ -28,6 +28,11 @@ public class Line {
         beads = peg.getBeads();
     }
 
+    /**
+     * Checks if the current{@link Line} represents a win.
+     *
+     * @return {@code boolean} of win state
+     */
     public boolean isWin() // returns true if the line has 4 beads of the same colour
     {
         for(int i = 0; i <= 3; i++) {
